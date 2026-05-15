@@ -289,3 +289,84 @@
         </div>
       </div>
     </section>
+    
+    <footer class="footer footer--premium">
+      <div class="container footer-inner">
+        <div class="footer-brand">
+          <div class="brand brand--footer">
+            <img src="img/logo.png" alt="Logo" class="brand-mark">
+            <span class="brand-text">OPTIC<span>FUSION</span></span>
+          </div>
+          <p class="muted">Optic Fusion — Te ajudando à ver o mundo de um ângulo melhor</p>
+        </div>
+
+        <div class="footer-links" aria-label="Links">
+          <a href="#problem">Problema</a>
+          <a href="#demo">Demonstração</a>
+          <a href="#features">Funcionalidades</a>
+          <a href="#early">Early access</a>
+        </div>
+
+        <div class="footer-legal muted">
+          <p>© 2026 OPTIC FUSION. All rights reserved.</p>
+          <p>Feito com HTML + CSS + JavaScript puro.</p>
+        </div>
+      </div>
+    </footer>
+  </main>
+
+  <div class="modal" id="loginModal" role="dialog" aria-modal="true" aria-label="Acesso interno">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-card">
+      <div class="modal-head">
+        <strong>Acesso interno</strong>
+        <button class="icon-btn" data-close-modal aria-label="Fechar">✕</button>
+      </div>
+
+      <div class="alert" id="loginAlert" role="status" aria-live="polite"></div>
+
+      <form id="loginForm" novalidate>
+        <label class="label" for="loginEmail">E-mail</label>
+        <input class="input" id="loginEmail" type="email" placeholder="jovi@opticfusion.com" />
+        <small class="error" id="loginEmailError"></small>
+
+        <label class="label" for="loginPassword">Senha</label>
+        <div class="row">
+          <input class="input" id="loginPassword" type="password" placeholder="••••••••" />
+          <button type="button" class="btn btn-ghost btn-sm" id="togglePw">Mostrar</button>
+        </div>
+        <small class="error" id="loginPasswordError"></small>
+
+        <p class="muted" style="margin-top: 8px;">
+          Demo: <strong>jovi@opticfusion.com</strong> / <strong>jovi2025</strong>
+        </p>
+
+        <button class="btn btn-primary btn-lg" type="submit">Entrar</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal" id="rmModal" role="dialog" aria-modal="true" aria-label="Consulta de RM">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-card">
+      <div class="modal-head">
+        <strong>Consultar Integrante</strong>
+        <button class="icon-btn" data-close-modal aria-label="Fechar">✕</button>
+      </div>
+      <div class="alert" id="rmAlert" role="status" aria-live="polite"></div>
+      <form id="rmForm" novalidate>
+        <label class="label" for="rmInput">RM do integrante</label>
+        <input class="input" id="rmInput" type="text" placeholder="Ex: 573818" />
+        <button class="btn btn-primary btn-lg" type="submit" style="margin-top: 15px; width: 100%;">Consultar</button>
+      </form>
+      <div id="rmResult" style="margin-top: 20px; display: none;">
+        <p><strong>Nome:</strong> <span id="rmResName"></span></p>
+        <p><strong>RM:</strong> <span id="rmResRM"></span></p>
+        <p><strong>Função:</strong> <span id="rmResRole"></span></p>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
