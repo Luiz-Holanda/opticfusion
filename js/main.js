@@ -293,3 +293,118 @@ function initContactForm() {
     form.reset();
   });
 }
+
+/*==LOGIN==*/
+
+function initLoginForm() {
+  const form = qs('#loginForm');
+  if (!form) return;
+
+  const alertEl = qs('#loginAlert');
+  const emailEl = qs('#loginEmail');
+  const passEl = qs('#loginPassword');
+  const toggle = qs('#togglePw');
+  const emailErr = qs('#loginEmailError');
+  const passErr = qs('#loginPasswordError');
+
+  toggle?.addEventListener('click', () => {
+    const isPassword = passEl.type === 'password';
+    passEl.type = isPassword ? 'text' : 'password';
+    toggle.textContent = isPassword ? 'Ocultar' : 'Mostrar';
+  });
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    let ok = true;
+
+    if (!validateEmail(emailEl.value.trim())) {
+      setFieldError(emailEl, emailErr, 'E-mail inválido.');
+      ok = false;
+    } else clearFieldError(emailEl, emailErr);
+
+    if (!passEl.value || passEl.value.length < 4) {
+      setFieldError(passEl, passErr, 'Senha inválida.');
+      ok = false;
+    } else clearFieldError(passEl, passErr);
+
+    if (!ok) {
+      showAlert(alertEl, 'error', 'Corrija os dados e tente novamente.');
+      return;
+    }
+
+    const found = VALID_USERS.find(u => u.email === emailEl.value.trim() && u.password === passEl.value);
+    if (found) {
+      alert('Login realizado com sucesso! Bem-vindo ao painel Optic Fusion.');
+      
+      showAlert(alertEl, 'success', 'Acesso liberado! Bem‑vindo.');
+      form.reset();
+    } else {
+      showAlert(alertEl, 'error', 'E-mail ou senha incorretos.');
+    }
+  });
+}
+
+/*==RM ==*/
+function initRMLookup(modalUtils) {
+  const btn = qs('#rmLookupBtn');
+  const modal = qs('#rmModal');
+  const form = qs('#rmForm');
+  const input = qs('#rmInput');
+  const alertEl = qs('#rmAlert');
+  const resultBox = qs('#rmResult');
+
+  if (!btn || !modal || !form) return;
+
+  btn.addEventListener('click', () => {
+    const usePrompt = confirm('Deseja usar a busca rápida via prompt?');
+    if (usePrompt) {
+      const rm = prompt('Digite o RM do integrante:');
+      if (rm) {
+        const person = TEAM.find(p => p.rm === rm.trim());
+        if (person) {
+          alert(`Integrante encontrado: ${person.name} (${person.role})`);
+          return;
+        } else {
+          alert('RM não encontrado.');
+          return;
+        }
+      }
+    }
+
+    modalUtils.openModal(modal);
+    alertEl.textContent = '';
+    resultBox.style.display = 'none';
+    form.reset();
+  });
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const rm = input.value.trim();
+    if (!rm) return;
+
+    const person = TEAM.find(p => p.rm === rm);
+    if (person) {
+      qs('#rmResName').textContent = person.name;
+      qs('#rmResRM').textContent = person.rm;
+      qs('#rmResRole').textContent = person.role;
+      resultBox.style.display = 'block';
+      alertEl.textContent = '';
+    } else {
+      resultBox.style.display = 'none';
+      showAlert(alertEl, 'error', 'RM não encontrado.');
+    }
+  });
+}
+
+
+document.addEventListener('DOMContentLoaded', () => {
+  initNavbar();
+  initReveal();
+  buildFeatures();
+  initSlideshow();
+  initCompare();
+  const modalUtils = initModal();
+  initContactForm();
+  initLoginForm();
+  initRMLookup(modalUtils);
+});
