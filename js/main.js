@@ -17,9 +17,24 @@ const FEATURES = [
 ];
 
 const SLIDES = [
-  { badge: 'Real‑time', title: 'Guias inteligentes na tela', text: 'Linhas e cantos sutis orientam o ângulo perfeito em segundos.' },
-  { badge: 'Auto‑fix', title: 'Correção automática de inclinação', text: 'Menos pós‑edição. Mais fotos prontas no primeiro clique.' },
-  { badge: 'Framing', title: 'Enquadramento que se adapta', text: 'A JOVI ajusta a composição para reduzir cortes e distrações.' },
+  {
+    badge: 'Real-time',
+    title: 'Guias inteligentes na tela',
+    text: 'Linhas e cantos sutis orientam o ângulo perfeito em segundos.',
+    image: './img/slide1.png'
+  },
+  {
+    badge: 'Auto-fix',
+    title: 'Correção automática de inclinação',
+    text: 'Menos pós-edição. Mais fotos prontas no primeiro clique.',
+    image: './img/slide2.png'
+  },
+  {
+    badge: 'Framing',
+    title: 'Enquadramento que se adapta',
+    text: 'A câmera ajusta a composição para reduzir cortes e distrações.',
+    image: './img/slide3.png'
+  },
 ];
 
 const VALID_USERS = [
@@ -158,28 +173,37 @@ function initSlideshow() {
     dotsWrap.appendChild(dot);
   });
 
-  function update() {
-    const s = SLIDES[current];
-    stage.innerHTML = '';
+function update() {
+  const s = SLIDES[current];
 
-    const slide = createEl('div', 'slide fade-in');
-    const visual = createEl('div', 'slide-visual');
-    const top = createEl('div', 'slide-top');
-    
-    top.append(
-      createEl('span', 'slide-badge', s.badge),
-      createEl('span', 'muted', `${current + 1}/${SLIDES.length}`)
-    );
+  stage.innerHTML = `
+    <div class="slide fade-in">
+      
+      <img class="slide-image" src="${s.image}" alt="${s.title}">
 
-    slide.append(visual, top, createEl('h3', null, s.title), createEl('p', 'muted', s.text));
-    stage.appendChild(slide);
+      <div class="slide-overlay"></div>
 
-    qsa('.dot', dotsWrap).forEach((dot, i) => {
-      dot.classList.toggle('active', i === current);
-    });
+      <div class="slide-content">
 
-    initReveal();
-  }
+        <div class="slide-top">
+          <span class="slide-badge">${s.badge}</span>
+          <span class="muted">${current + 1}/${SLIDES.length}</span>
+        </div>
+
+        <h3>${s.title}</h3>
+        <p class="muted">${s.text}</p>
+
+      </div>
+
+    </div>
+  `;
+
+  qsa('.dot', dotsWrap).forEach((dot, i) => {
+    dot.classList.toggle('active', i === current);
+  });
+
+  initReveal();
+}
 
   const goTo = (index) => {
     current = index;
