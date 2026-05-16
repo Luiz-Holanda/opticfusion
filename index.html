@@ -184,38 +184,95 @@
 </section>
 
     <section id="demo" class="section section--dark">
-      <div class="container">
-        <div class="demo">
-          <div class="demo-copy">
-            <p class="kicker reveal">Demonstração</p>
-            <h2 class="reveal">Seu enquadramento. <span class="grad">Aprimorado em tempo real.</span></h2>
-            <p class="muted reveal">
-              A Optic Fusion assistent analisa o cenário, identifica linhas, rosto e iluminação — e sugere correções instantâneas para deixar a foto pronta antes mesmo de você tocar no botão.
-            </p>
+  <div class="container">
+    <div class="demo">
 
-            <div class="demo-bullets reveal">
-              <div class="bullet"><span class="bullet-dot"></span> Feedback visual imediato</div>
-              <div class="bullet"><span class="bullet-dot"></span> Correção automática de inclinação</div>
-              <div class="bullet"><span class="bullet-dot"></span> Enquadramento adaptativo</div>
-            </div>
+      <div class="demo-copy">
+        <p class="kicker reveal">Demonstração</p>
+
+        <h2 class="reveal">
+          Seu enquadramento.
+          <span class="grad">Aprimorado em tempo real.</span>
+        </h2>
+
+        <p class="muted reveal">
+          A Optic Fusion assistent analisa o cenário, identifica linhas,
+          rosto e iluminação — e sugere correções instantâneas para deixar
+          a foto pronta antes mesmo de você tocar no botão.
+        </p>
+
+        <div class="demo-bullets reveal">
+          <div class="bullet">
+            <span class="bullet-dot"></span>
+            Feedback visual imediato
           </div>
 
-          <div class="compare reveal" aria-label="Comparação antes e depois">
-            <div class="compare-box" id="compareBox">
-              <div class="compare-before">
-                <div class="compare-label">Antes</div>
-              </div>
-              <div class="compare-after" id="compareAfter">
-                <div class="compare-label">Depois</div>
-                <div class="compare-guides" aria-hidden="true"></div>
-              </div>
-              <div class="compare-handle" id="compareHandle" aria-hidden="true"></div>
-            </div>
-            <input id="compareRange" class="compare-range" type="range" min="10" max="90" value="55" aria-label="Arraste para comparar" />
+          <div class="bullet">
+            <span class="bullet-dot"></span>
+            Correção automática de inclinação
+          </div>
+
+          <div class="bullet">
+            <span class="bullet-dot"></span>
+            Enquadramento adaptativo
           </div>
         </div>
       </div>
-    </section>
+
+      <div class="compare reveal" aria-label="Comparação antes e depois">
+
+        <div class="compare-box" id="compareBox">
+
+        
+          <div class="compare-before">
+            <img
+              src="./img/before.png"
+              alt="Imagem antes"
+              class="compare-img"
+            >
+
+            <div class="compare-label">Antes</div>
+          </div>
+
+          <div class="compare-after" id="compareAfter">
+
+            <img
+              src="./img/after.png"
+              alt="Imagem depois"
+              class="compare-img"
+            >
+
+            <div class="compare-label">Depois</div>
+
+            <div
+              class="compare-guides"
+              aria-hidden="true"
+            ></div>
+
+          </div>
+
+          <div
+            class="compare-handle"
+            id="compareHandle"
+            aria-hidden="true"
+          ></div>
+
+        </div>
+
+        <input
+          id="compareRange"
+          class="compare-range"
+          type="range"
+          min="10"
+          max="90"
+          value="55"
+          aria-label="Arraste para comparar"
+        />
+
+      </div>
+    </div>
+  </div>
+</section>
 
     <section id="features" class="section">
       <div class="container">
