@@ -1,0 +1,54 @@
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes floatY {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes glowPulse {
+  0%, 100% { filter: drop-shadow(0 0 8px rgba(0,212,255,.15)); }
+  50% { filter: drop-shadow(0 0 16px rgba(0,212,255,.3)); }
+}
+
+@keyframes floatSlow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity .5s ease, transform .5s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fade-in {
+  animation: fadeIn .25s ease both;
+}
+
+.anim-float {
+  animation: floatY 4s ease-in-out infinite;
+}
+
+.brand-mark { animation: glowPulse 3.8s ease-in-out infinite; }
+.hero-orbs { background-size: 200% 200%; animation: gradientShift 14s ease infinite; }
+.scroll-hint { animation: fadeInUp .8s ease both; opacity: .9; }
+.device { animation: floatSlow 6s ease-in-out infinite; }
