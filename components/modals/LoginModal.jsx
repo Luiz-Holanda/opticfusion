@@ -69,25 +69,29 @@ const LoginModal = ({
         <label className="label" htmlFor="loginEmail">E-mail</label>
         <input
           className={`input ${errors.email ? 'invalid' : ''}`}
-          id="email"
+          id="loginEmail"
           name="email"
           type="email"
           placeholder="jovi@opticfusion.com"
           value={fields.email}
           onChange={handleChange}
+          aria-invalid={!!errors.email}
+          aria-describedby={errors.email ? 'loginEmailError' : undefined}
         />
-        <small className="error" id="loginEmailError">{errors.email || ''}</small>
+        <small className="error" id="loginEmailError" role={errors.email ? 'alert' : undefined}>{errors.email || ''}</small>
 
         <label className="label" htmlFor="loginPassword">Senha</label>
         <div className="row">
           <input
             className={`input ${errors.password ? 'invalid' : ''}`}
-            id="password"
+            id="loginPassword"
             name="password"
             type={showPw ? 'text' : 'password'}
             placeholder="••••••••"
             value={fields.password}
             onChange={handleChange}
+            aria-invalid={!!errors.password}
+            aria-describedby={errors.password ? 'loginPasswordError' : undefined}
           />
           <Button variant="ghost" size="sm" type="button" id="togglePw" onClick={togglePw}>
             {showPw ? 'Ocultar' : 'Mostrar'}

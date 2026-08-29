@@ -13,7 +13,7 @@ import { PAIN_POINTS } from '@/data/constants';
  * @property {string} [kicker]
  * @property {string} [title]
  * @property {string} [description]
- * @property {PainPoint[]} [items
+ * @property {PainPoint[]} [items]
  */
 const ProblemSection = ({
   kicker = 'O problema',

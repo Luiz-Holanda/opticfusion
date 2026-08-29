@@ -18,10 +18,11 @@ const ExperienceSteps = ({ steps = EXPERIENCE_STEPS }) => {
   const revealRef = useRevealAll();
 
   return (
-    <section className="experience-steps" ref={revealRef}>
-      <div className="steps-grid">
-        {steps.map(({ number, image, text, success, focus, ...rest }) => (
-          <div
+    <section className="experience-steps section" ref={revealRef}>
+      <div className="container">
+        <div className="steps-grid">
+          {steps.map(({ number, image, text, success, focus, ...rest }) => (
+          <article
             key={`step-${number}`}
             className={`glass-panel step-card reveal ${success ? 'success-card' : ''}`}
             {...rest}
@@ -39,8 +40,9 @@ const ExperienceSteps = ({ steps = EXPERIENCE_STEPS }) => {
             <div className="step-info">
               <p className={success ? 'success-text' : ''}>{text}</p>
             </div>
-          </div>
+          </article>
         ))}
+        </div>
       </div>
     </section>
   );

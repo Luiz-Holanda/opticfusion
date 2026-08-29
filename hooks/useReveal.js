@@ -11,6 +11,11 @@ export function useReveal() {
 
     el.classList.add('reveal');
 
+    if (el.getBoundingClientRect().top < window.innerHeight * 0.95) {
+      requestAnimationFrame(() => el.classList.add('visible'));
+      return;
+    }
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -38,8 +43,6 @@ export function useRevealAll() {
     const root = rootRef.current;
     if (!root) return;
 
-    const items = root.querySelectorAll('.reveal');
-
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -52,9 +55,32 @@ export function useRevealAll() {
       { threshold: 0.12 }
     );
 
-    items.forEach((el) => observer.observe(el));
+    const observeItems = () => {
+      const items = root.querySelectorAll('.reveal:not(.visible)');
+      items.forEach((el) => {
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight * 0.95) {
+          requestAnimationFrame(() => el.classList.add('visible'));
+        } else {
+          observer.observe(el);
+        }
+      });
+    };
 
-    return () => observer.disconnect();
+    observeItems();
+
+    const timeoutId = window.setTimeout(observeItems, 0);
+
+    const mutationObserver = new MutationObserver(() => {
+      observeItems();
+    });
+    mutationObserver.observe(root, { childList: true, subtree: true });
+
+    return () => {
+      window.clearTimeout(timeoutId);
+      observer.disconnect();
+      mutationObserver.disconnect();
+    };
   }, []);
 
   return rootRef;

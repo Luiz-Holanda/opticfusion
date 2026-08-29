@@ -1,17 +1,17 @@
 export const TEAM = [
-  { name: 'Felipe Ribeiro', rm: '573818', role: 'Front-End' },
-  { name: 'Luiz Alberto', rm: '573843', role: 'UX Design' },
-  { name: 'Milena Kubo', rm: '572590', role: 'Pesquisa' },
-  { name: 'Yasmim Kim', rm: '571494', role: 'Estratégia' },
+  { name: 'Felipe Ribeiro', rm: '573818', role: 'Desenvolvimento Front-End', desc: 'Responsável pela construção da interface e implementação das funcionalidades web com Next.js e React.' },
+  { name: 'Luiz Alberto', rm: '573843', role: 'UX Design', desc: 'Especialista em experiência do usuário, prototipagem de alta fidelidade e design de interfaces visuais.' },
+  { name: 'Milena Kubo', rm: '572590', role: 'Pesquisa e Análise', desc: 'Responsável por pesquisa de campo, análise de requisitos e validação de hipóteses com usuários reais.' },
+  { name: 'Yasmim Kim', rm: '571494', role: 'Estratégia e Gestão', desc: 'Planejamento estratégico, gestão de escopo e alinhamento com stakeholders da Challenge.' },
 ];
 
 export const FEATURES = [
-  { icon: '⚡', title: 'Captura Inteligente', desc: 'A IA sugere o momento ideal e reduz tentativas.' },
-  { icon: '📐', title: 'Correção Automática', desc: 'Ajuste de inclinação e alinhamento em tempo real.' },
-  { icon: '🙂', title: 'Reconhecimento Facial', desc: 'Prioriza rostos e melhora composição com suavidade.' },
-  { icon: '🖼️', title: 'Enquadramento Adaptativo', desc: 'Mantém o assunto no centro, sem cortes indesejados.' },
-  { icon: '🧠', title: 'IA Contextual', desc: 'Entende cenário (documento, quadro, pessoa) e adapta o modo.' },
-  { icon: '👁️', title: 'Assistente Visual', desc: 'Overlays discretos para orientar o usuário sem poluir a tela.' },
+  { icon: '⚡', title: 'Captura Inteligente', desc: 'A IA sugere o momento ideal e reduz drasticamente o número de tentativas.' },
+  { icon: '📐', title: 'Correção Automática', desc: 'Ajuste de inclinação e alinhamento em tempo real para fotos sempre retas.' },
+  { icon: '🙂', title: 'Reconhecimento Facial', desc: 'Prioriza rostos humanos e melhora a composição com suavidade e naturalidade.' },
+  { icon: '🖼️', title: 'Enquadramento Adaptativo', desc: 'Mantém o assunto no centro sem cortes indesejados nem perda de contexto.' },
+  { icon: '🧠', title: 'IA Contextual', desc: 'Entende o cenário (documento, quadro, paisagem, pessoa) e adapta o modo de captura.' },
+  { icon: '👁️', title: 'Assistente Visual', desc: 'Overlays discretos para orientar o usuário sem poluir a tela nem distrair.' },
 ];
 
 export const SLIDES = [
@@ -41,10 +41,11 @@ export const VALID_USERS = [
 ];
 
 export const NAV_LINKS = [
-  { href: '#problem', label: 'Problema' },
-  { href: '#demo', label: 'Demonstração' },
-  { href: '#features', label: 'Funcionalidades' },
-  { href: '#highlights', label: 'Highlights' },
+  { href: '#solution', label: 'A Solução' },
+  { href: '#target-audience', label: 'Público-Alvo' },
+  { href: '#highlights', label: 'Destaques' },
+  { href: '#team', label: 'Nossa Equipe' },
+  { href: '#contact', label: 'Contato' },
 ];
 
 export const EXPERIENCE_STEPS = [
@@ -56,13 +57,49 @@ export const EXPERIENCE_STEPS = [
 ];
 
 export const PAIN_POINTS = [
-  { variant: 'tilt', title: 'Quadro torto', desc: 'Perde legibilidade e exige "gambiarra" depois.' },
-  { variant: 'crop', title: 'Enquadramento ruim', desc: 'Assunto cortado, contexto perdido.' },
-  { variant: 'light', title: 'Luz incorreta', desc: 'Sombras, reflexos e estouro de branco.' },
+  { variant: 'tilt', title: 'Quadro torto', desc: 'Perde legibilidade e exige "gambiarra" depois na edição.' },
+  { variant: 'crop', title: 'Enquadramento ruim', desc: 'Assunto cortado, contexto perdido, foto inutilizável.' },
+  { variant: 'light', title: 'Luz incorreta', desc: 'Sombras, reflexos e estouro de branco que arruínam a foto.' },
 ];
 
 export const DEMO_BULLETS = [
-  'Feedback visual imediato',
-  'Correção automática de inclinação',
-  'Enquadramento adaptativo',
+  'Feedback visual imediato sobre a qualidade do enquadramento',
+  'Correção automática de inclinação na hora da captura',
+  'Enquadramento adaptativo que segue o assunto principal',
+];
+
+export const TARGET_AUDIENCE = [
+  {
+    icon: '📸',
+    title: 'Fotógrafos Amadores',
+    desc: 'Pessoas que amam registrar momentos e querem melhorar a qualidade das fotos sem gastar horas editando.'
+  },
+  {
+    icon: '🎓',
+    title: 'Estudantes e Universitários',
+    desc: 'Alunos que precisam de fotos de qualidade para trabalhos, documentos e registros acadêmicos.'
+  },
+  {
+    icon: '💼',
+    title: 'Profissionais Autônomos',
+    desc: 'Freelancers e empreendedores que precisam de fotos profissionais para redes sociais e portfólios.'
+  },
+  {
+    icon: '👨‍👩‍👧',
+    title: 'Famílias e Usuários Comuns',
+    desc: 'Pessoas que querem capturar memórias especiais com qualidade, sem complicação técnica.'
+  },
+];
+
+export const HERO_STATS_LABELS = [
+  'Tentativas reduzidas',
+  'Qualidade aprimorada',
+  'Tempo economizado',
+];
+
+export const SOLUTION_ASIDE_FACTS = [
+  'Até 85% menos tentativas por foto',
+  'Processamento em tempo real',
+  'Sem necessidade de edição posterior',
+  'Funciona em smartphone comum',
 ];
