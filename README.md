@@ -144,7 +144,7 @@ Todo o restante do projeto (design, layout, arquitetura de componentes, lógica 
 
 Link de produção após deploy:
 ```
-https://[SEU-PROJETO].vercel.app
+https://opticfusion-red.vercel.app/
 ```
 
 > ✅ O build `npm run build` já foi validado localmente com sucesso. O deploy na Vercel vai repetir exatamente o mesmo processo.
