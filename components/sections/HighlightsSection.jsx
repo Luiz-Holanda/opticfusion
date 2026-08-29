@@ -1,7 +1,7 @@
 'use client';
 
 import { useRevealAll } from '@/hooks/useReveal';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { SLIDES } from '@/data/constants';
 
 /**
@@ -26,9 +26,15 @@ const HighlightsSection = ({
   const [current, setCurrent] = useState(0);
   const revealRef = useRevealAll();
 
-  const goTo = (idx) => setCurrent(idx);
-  const prev = () => setCurrent((c) => (c - 1 + slides.length) % slides.length);
-  const next = () => setCurrent((c) => (c + 1) % slides.length);
+  const goTo = useCallback((idx) => setCurrent(idx), []);
+  const prev = useCallback(
+    () => setCurrent((c) => (c - 1 + slides.length) % slides.length),
+    [slides.length]
+  );
+  const next = useCallback(
+    () => setCurrent((c) => (c + 1) % slides.length),
+    [slides.length]
+  );
 
   const s = slides[current];
 

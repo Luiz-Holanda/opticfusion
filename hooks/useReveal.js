@@ -11,8 +11,15 @@ export function useReveal() {
 
     el.classList.add('reveal');
 
-    if (el.getBoundingClientRect().top < window.innerHeight * 0.95) {
+    if (el.dataset.revealed === 'true' || (typeof window !== 'undefined' && el.getBoundingClientRect().top < window.innerHeight * 0.95)) {
+      el.dataset.revealed = 'true';
       requestAnimationFrame(() => el.classList.add('visible'));
+      return;
+    }
+
+    if (typeof window === 'undefined' || typeof window.IntersectionObserver === 'undefined') {
+      el.dataset.revealed = 'true';
+      el.classList.add('visible');
       return;
     }
 
@@ -20,6 +27,7 @@ export function useReveal() {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
+            entry.target.dataset.revealed = 'true';
             entry.target.classList.add('visible');
             observer.unobserve(entry.target);
           }
@@ -43,24 +51,35 @@ export function useRevealAll() {
     const root = rootRef.current;
     if (!root) return;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.12 }
-    );
+    const hasIO = typeof window !== 'undefined' && typeof window.IntersectionObserver !== 'undefined';
+
+    const observer = hasIO
+      ? new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.dataset.revealed = 'true';
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.12 }
+        )
+      : { observe: (el) => { el.dataset.revealed = 'true'; el.classList.add('visible'); }, unobserve: () => {}, disconnect: () => {} };
 
     const observeItems = () => {
       const items = root.querySelectorAll('.reveal:not(.visible)');
       items.forEach((el) => {
+        if (el.dataset.revealed === 'true' || !hasIO) {
+          el.dataset.revealed = 'true';
+          el.classList.add('visible');
+          return;
+        }
         const rect = el.getBoundingClientRect();
         if (rect.top < window.innerHeight * 0.95) {
-          requestAnimationFrame(() => el.classList.add('visible'));
+          el.dataset.revealed = 'true';
+          el.classList.add('visible');
         } else {
           observer.observe(el);
         }
@@ -74,7 +93,12 @@ export function useRevealAll() {
     const mutationObserver = new MutationObserver(() => {
       observeItems();
     });
-    mutationObserver.observe(root, { childList: true, subtree: true });
+    mutationObserver.observe(root, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ['class'],
+    });
 
     return () => {
       window.clearTimeout(timeoutId);

@@ -1,8 +1,9 @@
 'use client';
 
 import { useRevealAll } from '@/hooks/useReveal';
-import { useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { DEMO_BULLETS } from '@/data/constants';
+import { MathUtils } from '@/utils/math';
 
 /**
  * @typedef {Object} DemoSectionProps
@@ -27,10 +28,17 @@ const DemoSection = ({
 }) => {
   const [pos, setPos] = useState(initialPos);
   const revealRef = useRevealAll();
-  const posPct = pos + '%';
+
+  const clampedPos = useMemo(() => MathUtils.clamp(pos, 10, 90), [pos]);
+  const posPct = clampedPos + '%';
   const cssVarStyle = { '--pos': posPct };
   const compareAfterStyle = { width: posPct };
   const compareHandleStyle = { left: posPct };
+
+  const handleRangeChange = useCallback((e) => {
+    const rawVal = Number(e.target.value);
+    setPos(MathUtils.round(rawVal, 0));
+  }, []);
 
   return (
     <section id="demo" className="section section--dark" ref={revealRef}>
@@ -79,9 +87,9 @@ const DemoSection = ({
               type="range"
               min="10"
               max="90"
-              value={pos}
+              value={clampedPos}
               aria-label="Arraste para comparar"
-              onChange={(e) => setPos(Number(e.target.value))}
+              onChange={handleRangeChange}
             />
           </div>
         </div>

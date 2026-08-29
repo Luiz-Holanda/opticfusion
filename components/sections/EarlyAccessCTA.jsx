@@ -3,7 +3,8 @@
 import { Alert } from '@/components/ui/Alert.jsx';
 import { Button } from '@/components/ui/Button.jsx';
 import { useRevealAll } from '@/hooks/useReveal';
-import { useEffect, useState } from 'react';
+import { useLocalStorage } from '@/hooks/useLocalStorage';
+import { useCallback, useEffect, useState } from 'react';
 
 const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
@@ -39,6 +40,12 @@ const EarlyAccessCTA = ({
   onSubmitSuccess = () => {},
 }) => {
   const revealRef = useRevealAll();
+  const {
+    value: savedDraft,
+    setValue: saveDraft,
+    removeValue: clearDraft,
+    available: storageAvailable,
+  } = useLocalStorage(STORAGE_KEY, { ...FIELDS_DEFAULTS });
   const [formData, setFormData] = useState({ ...FIELDS_DEFAULTS });
   const [errors, setErrors] = useState({});
   const [alert, setAlert] = useState({ type: 'info', message: '' });
@@ -48,34 +55,40 @@ const EarlyAccessCTA = ({
     const id = window.setTimeout(() => {
       setIsHydrated(true);
       try {
-        const saved = localStorage.getItem(STORAGE_KEY);
-        if (saved) {
-          const parsed = JSON.parse(saved);
-          setFormData({ ...FIELDS_DEFAULTS, ...parsed });
-          setAlert({ type: 'info', message: 'Rascunho carregado automaticamente do seu navegador.' });
+        if (storageAvailable && savedDraft) {
+          const hasData = Object.values(savedDraft).some(
+            (v) => typeof v === 'string' && v.trim().length > 0
+          );
+          if (hasData) {
+            setFormData({ ...FIELDS_DEFAULTS, ...savedDraft });
+            setAlert({
+              type: 'info',
+              message: 'Rascunho carregado automaticamente do seu navegador.',
+            });
+          }
         }
-      } catch (err) {
+      } catch {
         console.warn('[EarlyAccessCTA] Não foi possível carregar rascunho do formulário.');
       }
     }, 0);
     return () => window.clearTimeout(id);
-  }, []);
+  }, [storageAvailable, savedDraft]);
 
   useEffect(() => {
-    if (!isHydrated) return;
+    if (!isHydrated || !storageAvailable) return;
     try {
       const hasData = Object.values(formData).some(
         (v) => typeof v === 'string' && v.trim().length > 0
       );
       if (hasData) {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
+        saveDraft({ ...FIELDS_DEFAULTS, ...formData });
       }
-    } catch (err) {
+    } catch {
       console.warn('[EarlyAccessCTA] Não foi possível salvar rascunho no localStorage.');
     }
-  }, [formData, isHydrated]);
+  }, [formData, isHydrated, storageAvailable, saveDraft]);
 
-  const handleChange = (e) => {
+  const handleChange = useCallback((e) => {
     const { id, value } = e.target;
     const fieldName = id === 'contactName' ? 'name'
       : id === 'contactEmail' ? 'email'
@@ -83,12 +96,10 @@ const EarlyAccessCTA = ({
       : id === 'contactMsg' ? 'msg'
       : id;
     setFormData((prev) => ({ ...prev, [fieldName]: value }));
-    if (errors[fieldName]) {
-      setErrors((prev) => ({ ...prev, [fieldName]: '' }));
-    }
-  };
+    setErrors((prev) => (prev[fieldName] ? { ...prev, [fieldName]: '' } : prev));
+  }, []);
 
-  const validate = () => {
+  const validate = useCallback(() => {
     const { name, email, subject, msg } = formData;
     const newErrors = {};
     let ok = true;
@@ -112,28 +123,31 @@ const EarlyAccessCTA = ({
 
     setErrors(newErrors);
     return ok;
-  };
+  }, [formData]);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!validate()) {
-      setAlert({ type: 'error', message: 'Revise os campos destacados em vermelho.' });
-      return;
-    }
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      if (!validate()) {
+        setAlert({ type: 'error', message: 'Revise os campos destacados em vermelho.' });
+        return;
+      }
 
-    window.alert('Formulário enviado com sucesso! Verifique sua caixa de entrada.');
-    setAlert({
-      type: 'success',
-      message: 'Pedido enviado! Em breve você recebe o acesso antecipado por e-mail.',
-    });
-    setFormData({ ...FIELDS_DEFAULTS });
-    try {
-      localStorage.removeItem(STORAGE_KEY);
-    } catch (err) {
-      console.warn('[EarlyAccessCTA] Não foi possível limpar rascunho do localStorage.');
-    }
-    onSubmitSuccess({ ...formData });
-  };
+      window.alert('Formulário enviado com sucesso! Verifique sua caixa de entrada.');
+      setAlert({
+        type: 'success',
+        message: 'Pedido enviado! Em breve você recebe o acesso antecipado por e-mail.',
+      });
+      setFormData({ ...FIELDS_DEFAULTS });
+      try {
+        clearDraft();
+      } catch {
+        console.warn('[EarlyAccessCTA] Não foi possível limpar rascunho do localStorage.');
+      }
+      onSubmitSuccess({ ...formData });
+    },
+    [validate, clearDraft, onSubmitSuccess, formData]
+  );
 
   return (
     <section

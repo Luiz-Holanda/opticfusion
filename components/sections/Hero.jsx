@@ -2,8 +2,9 @@
 
 import { useRevealAll } from '@/hooks/useReveal';
 import { Button } from '@/components/ui/Button.jsx';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { HERO_STATS_LABELS, SOLUTION_ASIDE_FACTS } from '@/data/constants';
+import { MathUtils } from '@/utils/math';
 
 /**
  * @typedef {Object} HeroProps
@@ -39,8 +40,8 @@ const Hero = ({
     HERO_STATS_LABELS.map((label) => ({ number: 0, label }))
   );
 
-  useEffect(() => {
-    const target = HERO_STATS_LABELS.map((label) => {
+  const targetValues = useMemo(() => {
+    return HERO_STATS_LABELS.map((label) => {
       let min = 60;
       let max = 95;
       if (label.includes('Tempo')) {
@@ -53,34 +54,48 @@ const Hero = ({
         min = 65;
         max = 88;
       }
-      const value = Math.floor(Math.random() * (max - min + 1)) + min;
-      return Math.min(Math.max(value, min), max);
+      return MathUtils.clamp(MathUtils.randomInt(min, max), min, max);
     });
+  }, []);
 
+  const animationConfig = useMemo(() => {
     const duration = 1400;
     const steps = 28;
-    const stepTime = Math.round(duration / steps);
+    const stepTime = MathUtils.round(duration / steps, 0);
+    return { duration, steps, stepTime };
+  }, []);
+
+  const easeProgress = useCallback((progress) => {
+    return MathUtils.easeOutCubic(progress);
+  }, []);
+
+  const computeStatsStep = useCallback(
+    (progress) => {
+      const eased = easeProgress(progress);
+      return targetValues.map((finalVal, idx) => {
+        const interpolated = MathUtils.lerp(0, finalVal, eased);
+        return {
+          number: MathUtils.round(interpolated, 0),
+          label: HERO_STATS_LABELS[idx],
+        };
+      });
+    },
+    [targetValues, easeProgress]
+  );
+
+  useEffect(() => {
+    const { steps, stepTime } = animationConfig;
     let currentStep = 0;
 
     const interval = setInterval(() => {
       currentStep++;
-      const progress = Math.min(currentStep / steps, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-
-      setStats(
-        target.map((finalVal, idx) => ({
-          number: Math.round(finalVal * eased),
-          label: HERO_STATS_LABELS[idx],
-        }))
-      );
-
-      if (currentStep >= steps) {
-        clearInterval(interval);
-      }
+      const progress = MathUtils.clamp(currentStep / steps, 0, 1);
+      setStats(computeStatsStep(progress));
+      if (currentStep >= steps) clearInterval(interval);
     }, stepTime);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [animationConfig, computeStatsStep]);
 
   return (
     <section

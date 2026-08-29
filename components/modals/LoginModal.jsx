@@ -4,7 +4,9 @@ import { Alert } from '@/components/ui/Alert.jsx';
 import { Button } from '@/components/ui/Button.jsx';
 import { Modal } from '@/components/layout/Modal.jsx';
 import { VALID_USERS } from '@/data/constants';
-import { useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useLocalStorage } from '@/hooks/useLocalStorage';
+import { MathUtils } from '@/utils/math';
 
 const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
@@ -21,46 +23,102 @@ const LoginModal = ({
   demoHint = 'Demo: jovi@opticfusion.com / jovi2025',
   onLoginSuccess = () => {},
 }) => {
+  const {
+    value: rememberedEmail,
+    setValue: setRememberedEmail,
+    removeValue: forgetEmail,
+  } = useLocalStorage('opticfusion:remembered-email', '');
+
+  const {
+    value: loginCount,
+    setValue: setLoginCount,
+  } = useLocalStorage('opticfusion:login-count', 0);
+
   const [fields, setFields] = useState({ email: '', password: '' });
   const [showPw, setShowPw] = useState(false);
   const [errors, setErrors] = useState({});
   const [alert, setAlert] = useState({ type: 'info', message: '' });
+  const [remember, setRemember] = useState(false);
 
-  const togglePw = () => setShowPw((prev) => !prev);
-
-  const handleChange = (e) => {
-    const { id, value } = e.target;
-    setFields((prev) => ({ ...prev, [id]: value }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const { email, password } = fields;
-    const newErrors = {};
-    let ok = true;
-
-    if (!validateEmail(email.trim())) newErrors.email = 'E-mail inválido.';
-    if (!password || password.length < 4) newErrors.password = 'Senha inválida.';
-
-    setErrors(newErrors);
-    ok = !Object.keys(newErrors).length;
-
-    if (!ok) {
-      setAlert({ type: 'error', message: 'Corrija os dados e tente novamente.' });
-      return;
+  useEffect(() => {
+    if (isOpen) {
+      const handle = requestAnimationFrame(() => {
+        const hasRemembered = typeof rememberedEmail === 'string' && rememberedEmail.length > 0;
+        setFields((prev) => ({
+          ...prev,
+          email: hasRemembered ? rememberedEmail : prev.email,
+        }));
+        setRemember(hasRemembered);
+      });
+      return () => cancelAnimationFrame(handle);
     }
+  }, [isOpen, rememberedEmail]);
 
-    const found = VALID_USERS.find((u) => u.email === email.trim() && u.password === password);
+  const totalValidUsers = useMemo(() => VALID_USERS.length, []);
 
-    if (found) {
-      window.alert('Login realizado com sucesso! Bem-vindo ao painel Optic Fusion.');
-      setAlert({ type: 'success', message: 'Acesso liberado! Bem-vindo.' });
-      setFields({ email: '', password: '' });
-      onLoginSuccess({ email: found.email });
-    } else {
-      setAlert({ type: 'error', message: 'E-mail ou senha incorretos.' });
-    }
-  };
+  const loginProgress = useMemo(
+    () => MathUtils.min(MathUtils.percentage(Number(loginCount) || 0, 100), 100),
+    [loginCount]
+  );
+
+  const togglePw = useCallback(() => setShowPw((prev) => !prev), []);
+
+  const toggleRemember = useCallback((e) => {
+    setRemember(e.target.checked);
+  }, []);
+
+  const handleChange = useCallback((e) => {
+    const { id, name, value } = e.target;
+    const fieldKey = name || id;
+    setFields((prev) => ({ ...prev, [fieldKey]: value }));
+    setErrors((prev) => (prev[fieldKey] ? { ...prev, [fieldKey]: '' } : prev));
+  }, []);
+
+  const handleForgetEmail = useCallback(() => {
+    forgetEmail();
+    setRemember(false);
+    setFields((prev) => ({ ...prev, email: '' }));
+  }, [forgetEmail]);
+
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
+      const { email, password } = fields;
+      const newErrors = {};
+      let ok = true;
+
+      if (!validateEmail(email.trim())) newErrors.email = 'E-mail inválido.';
+      if (!password || password.length < 4) newErrors.password = 'Senha inválida.';
+
+      setErrors(newErrors);
+      ok = !Object.keys(newErrors).length;
+
+      if (!ok) {
+        setAlert({ type: 'error', message: 'Corrija os dados e tente novamente.' });
+        return;
+      }
+
+      const found = VALID_USERS.find((u) => u.email === email.trim() && u.password === password);
+
+      if (found) {
+        if (remember) {
+          setRememberedEmail(found.email);
+        } else {
+          forgetEmail();
+        }
+        const newCount = MathUtils.round(Number(loginCount) || 0, 0) + 1;
+        setLoginCount(newCount);
+
+        window.alert(`Login realizado com sucesso! (Tentativa #${newCount})`);
+        setAlert({ type: 'success', message: 'Acesso liberado! Bem-vindo.' });
+        setFields({ email: remember ? found.email : '', password: '' });
+        onLoginSuccess({ email: found.email });
+      } else {
+        setAlert({ type: 'error', message: 'E-mail ou senha incorretos.' });
+      }
+    },
+    [fields, remember, loginCount, setRememberedEmail, setLoginCount, forgetEmail, onLoginSuccess]
+  );
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} title="Acesso interno">
@@ -99,8 +157,74 @@ const LoginModal = ({
         </div>
         <small className="error" id="loginPasswordError">{errors.password || ''}</small>
 
+        <div className="row" style={{ marginTop: '8px', gap: '6px' }}>
+          <input
+            id="rememberLogin"
+            type="checkbox"
+            checked={remember}
+            onChange={toggleRemember}
+          />
+          <label htmlFor="rememberLogin" style={{ fontSize: '13px', color: 'var(--muted)' }}>
+            Lembrar meu e-mail neste navegador
+          </label>
+        </div>
+
+        {(loginCount || 0) > 0 && (
+          <div style={{ marginTop: '10px', fontSize: '12px' }}>
+            <p className="muted" style={{ margin: 0 }}>
+              Logins nesta máquina: <strong>{Number(loginCount) || 0}</strong> (meta 100: {MathUtils.round(loginProgress, 1)}%)
+            </p>
+            <div
+              style={{
+                height: '6px',
+                borderRadius: '3px',
+                background: 'rgba(255,255,255,.08)',
+                marginTop: '6px',
+                overflow: 'hidden',
+              }}
+              role="progressbar"
+              aria-label="Progresso de logins"
+              aria-valuenow={MathUtils.round(loginProgress, 0)}
+              aria-valuemin={0}
+              aria-valuemax={100}
+            >
+              <div
+                style={{
+                  width: `${loginProgress}%`,
+                  height: '100%',
+                  background: 'linear-gradient(90deg, var(--cyan), var(--violet, #8b5cf6))',
+                  transition: 'width .4s ease',
+                }}
+              />
+            </div>
+            {(rememberedEmail || '').length > 0 && (
+              <div className="row" style={{ justifyContent: 'space-between', marginTop: '8px' }}>
+                <span className="muted">Lembrado: <code style={{ fontSize: '11px' }}>{rememberedEmail}</code></span>
+                <button
+                  type="button"
+                  onClick={handleForgetEmail}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    color: 'var(--cyan)',
+                    fontSize: '11px',
+                    cursor: 'pointer',
+                    padding: 0,
+                  }}
+                >
+                  [esquecer]
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+
         <p className="muted" style={{ marginTop: '8px' }}>
           {demoHint}
+        </p>
+
+        <p className="muted" style={{ marginTop: '4px', fontSize: '12px' }}>
+          {totalValidUsers} usuário{totalValidUsers !== 1 ? 's' : ''} demo cadastrado{totalValidUsers !== 1 ? 's' : ''}.
         </p>
 
         <Button variant="primary" size="lg" type="submit" style={{ marginTop: '10px' }}>
