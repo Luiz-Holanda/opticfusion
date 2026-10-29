@@ -8,12 +8,7 @@ import { useCallback, useMemo, useState } from 'react';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { MathUtils } from '@/utils/math';
 
-/**
- * @typedef {Object} RMLookupModalProps
- * @property {boolean} isOpen
- * @property {() => void} onClose
- * @property {(member: typeof TEAM[number]) => void} [onMemberFound]
- */
+
 const RMLookupModal = ({
   isOpen,
   onClose,

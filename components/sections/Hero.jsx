@@ -6,21 +6,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { HERO_STATS_LABELS, SOLUTION_ASIDE_FACTS } from '@/data/constants';
 import { MathUtils } from '@/utils/math';
 
-/**
- * @typedef {Object} HeroProps
- * @property {string} [kicker]
- * @property {string} [titlePrefix]
- * @property {string} [titleHighlight]
- * @property {string} [subtitle]
- * @property {string} [primaryCtaLabel]
- * @property {string} [primaryCtaHref]
- * @property {string} [secondaryCtaLabel]
- * @property {string} [secondaryCtaHref]
- * @property {string[]} [trustBadges]
- * @property {string} [scrollHint]
- * @property {string} [asideTitle]
- * @property {string[]} [asideFacts]
- */
+
 const Hero = ({
   kicker = 'OPTIC FUSION',
   titlePrefix = 'Fotografia inteligente',

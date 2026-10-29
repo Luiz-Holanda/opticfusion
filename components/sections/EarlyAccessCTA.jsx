@@ -18,17 +18,7 @@ const SUBJECT_OPTIONS = [
 
 const STORAGE_KEY = 'opticfusion:contact-form-draft';
 
-/**
- * @typedef {Object} EarlyAccessCTAProps
- * @property {string} [kicker]
- * @property {string} [title]
- * @property {string} [description]
- * @property {string} [loginBtnLabel]
- * @property {string} [rmBtnLabel]
- * @property {() => void} [onOpenLogin]
- * @property {() => void} [onOpenRMLookup]
- * @property {(data: FIELDS_DEFAULTS) => void} [onSubmitSuccess]
- */
+
 const EarlyAccessCTA = ({
   kicker = 'Contato e Early Access',
   title = 'Teste a Optic Fusion assistent antes de todo mundo.',

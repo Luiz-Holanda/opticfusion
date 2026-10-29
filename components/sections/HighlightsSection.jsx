@@ -4,19 +4,7 @@ import { useRevealAll } from '@/hooks/useReveal';
 import { useCallback, useState } from 'react';
 import { SLIDES } from '@/data/constants';
 
-/**
- * @typedef {Object} Slide
- * @property {string} badge
- * @property {string} title
- * @property {string} text
- * @property {string} image
- *
- * @typedef {Object} HighlightsSectionProps
- * @property {string} [kicker]
- * @property {string} [titlePrefix]
- * @property {string} [titleHighlight]
- * @property {Slide[]} [slides]
- */
+
 const HighlightsSection = ({
   kicker = 'Highlights',
   titlePrefix = 'A experiência de câmera que parece',

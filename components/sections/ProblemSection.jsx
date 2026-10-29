@@ -3,18 +3,7 @@
 import { useRevealAll } from '@/hooks/useReveal';
 import { PAIN_POINTS } from '@/data/constants';
 
-/**
- * @typedef {Object} PainPoint
- * @property {'tilt'|'crop'|'light'} variant
- * @property {string} title
- * @property {string} desc
- *
- * @typedef {Object} ProblemSectionProps
- * @property {string} [kicker]
- * @property {string} [title]
- * @property {string} [description]
- * @property {PainPoint[]} [items]
- */
+
 const ProblemSection = ({
   kicker = 'O problema',
   title = 'Você já perdeu uma foto perfeita por um pequeno detalhe?',

@@ -3,17 +3,7 @@
 import { useMemo } from 'react';
 import { MathUtils } from '@/utils/math';
 
-/**
- * @typedef {Object} TeamCardProps
- * @property {string} name
- * @property {string} role
- * @property {string} [rm]
- * @property {string} [desc]
- * @property {string} [avatar]
- * @property {boolean} [highlighted]
- * @property {number} [order]
- * @property {number} [orderPercent]
- */
+
 const TeamCard = ({
   name,
   role,

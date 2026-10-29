@@ -7,20 +7,7 @@ import { useCallback, useMemo } from 'react';
 import { MathUtils } from '@/utils/math';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 
-/**
- * @typedef {Object} TeamMember
- * @property {string} name
- * @property {string} rm
- * @property {string} role
- * @property {string} [desc]
- *
- * @typedef {Object} TeamSectionProps
- * @property {string} [kicker]
- * @property {string} [title]
- * @property {string} [description]
- * @property {TeamMember[]} [members]
- * @property {(member: TeamMember) => void} [onMemberSelect]
- */
+
 const TeamSection = ({
   kicker = 'Nossa Equipe',
   title = 'Os integrantes por trás da Optic Fusion',

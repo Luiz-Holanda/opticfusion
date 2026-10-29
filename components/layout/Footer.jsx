@@ -3,16 +3,7 @@
 import { useEffect, useState } from 'react';
 import { TEAM } from '@/data/constants';
 
-/**
- * @typedef {Object} FooterProps
- * @property {string} [logoSrc]
- * @property {string} [brandTitle]
- * @property {string} [brandHighlight]
- * @property {string} [tagline]
- * @property {{label: string, href: string}[]} [links]
- * @property {string} [legal]
- * @property {string} [techStack]
- */
+
 const Footer = ({
   logoSrc = '/img/logo.png',
   brandTitle = 'OPTIC',

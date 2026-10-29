@@ -7,15 +7,7 @@ import { Button } from '@/components/ui/Button.jsx';
 import { MathUtils } from '@/utils/math';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 
-/**
- * @typedef {Object} NavProps
- * @property {() => void} [onOpenLogin]
- * @property {() => void} [onOpenRMLookup]
- * @property {{label:string,href:string}[]} [links]
- * @property {string} [brandLogo]
- * @property {string} [brandTitle]
- * @property {string} [brandHighlight]
- */
+
 const Nav = ({
   onOpenLogin = () => {},
   onOpenRMLookup = () => {},

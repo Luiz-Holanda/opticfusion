@@ -112,15 +112,15 @@ RMs válidos (consulta na base em `data/constants.js`):
 
 ---
 
-## Utilização de IA (Inteligência Artificial)
+## 🤖 Declaração de Uso de IA (Inteligência Artificial)
 
-No desenvolvimento deste projeto acadêmico, a Inteligência Artificial foi utilizada **somente em duas situações específicas**, com supervisão e validação humana de 100% do resultado final:
+Em conformidade com os critérios éticos e diretrizes acadêmicas da Sprint 4, declaramos que a Inteligência Artificial foi utilizada exclusivamente nas seguintes situações:
 
-1. **Elaboração do arquivo README.md**: A IA foi utilizada como auxílio na redação e formatação deste documento em Markdown, incluindo a organização das seções e a documentação técnica do projeto. Todo o conteúdo foi revisado e validado pelos integrantes.
+* Criação e formatação deste README;
+* Revisão geral do projeto;
+* Auxílio pontual na identificação e resolução de bugs.
 
-2. **Resolução de problemas pontuais no código**: A IA foi utilizada pontualmente para identificar e corrigir bugs específicos, como por exemplo a correção do hook `useRevealAll` que causava a não renderização visual dos componentes da seção Experience Steps. Nenhuma funcionalidade ou seção completa do projeto foi criada por IA — o código foi desenvolvido integralmente pelos integrantes, com a IA atuando apenas como ferramenta de depuração em casos isolados.
-
-Todo o restante do projeto (design, layout, arquitetura de componentes, lógica de negócio, estilos CSS, estrutura de pastas, etc.) foi desenvolvido manualmente pela equipe, sem utilização de IA.
+A equipe revisou as alterações e mantém a responsabilidade pelo conteúdo, pelas decisões de projeto e pela validação final da entrega.
 
 ---
 

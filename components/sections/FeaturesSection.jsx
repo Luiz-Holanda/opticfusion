@@ -6,19 +6,7 @@ import { useCallback, useMemo } from 'react';
 import { MathUtils } from '@/utils/math';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 
-/**
- * @typedef {Object} Feature
- * @property {string} icon
- * @property {string} title
- * @property {string} desc
- *
- * @typedef {Object} FeaturesSectionProps
- * @property {string} [kicker]
- * @property {string} [titlePrefix]
- * @property {string} [titleHighlight]
- * @property {Feature[]} [features]
- * @property {(feature: Feature, idx: number) => void} [onFeatureSelect]
- */
+
 const FeaturesSection = ({
   kicker = 'Funcionalidades',
   titlePrefix = 'Um conjunto de IA pensado para',

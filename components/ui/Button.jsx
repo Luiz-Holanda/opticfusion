@@ -2,17 +2,7 @@
 
 import Link from 'next/link';
 
-/**
- * @typedef {Object} ButtonProps
- * @property {React.ReactNode} children
- * @property {'primary'|'ghost'} [variant]
- * @property {'sm'|'md'|'lg'} [size]
- * @property {boolean} [asLink]
- * @property {string} [href]
- * @property {string} [className]
- * @property {'button'|'submit'|'reset'} [type]
- * @property {React.ButtonHTMLAttributes<HTMLButtonElement> | React.LinkHTMLAttributes<HTMLAnchorElement>} rest
- */
+
 const Button = ({
   children,
   variant = 'ghost',

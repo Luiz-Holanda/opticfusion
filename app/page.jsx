@@ -16,20 +16,7 @@ import { RMLookupModal } from '@/components/modals/RMLookupModal.jsx';
 import { useModal } from '@/hooks/useModal';
 import { SOLUTION_ASIDE_FACTS } from '@/data/constants';
 
-/**
- * @typedef {Object} HomeProps
- * @property {React.ComponentProps<typeof Nav>} [navProps]
- * @property {React.ComponentProps<typeof Hero>} [heroProps]
- * @property {React.ComponentProps<typeof ProblemSection>} [problemProps]
- * @property {React.ComponentProps<typeof ExperienceSteps>} [stepsProps]
- * @property {React.ComponentProps<typeof DemoSection>} [demoProps]
- * @property {React.ComponentProps<typeof FeaturesSection>} [featuresProps]
- * @property {React.ComponentProps<typeof HighlightsSection>} [highlightsProps]
- * @property {React.ComponentProps<typeof TargetAudienceSection>} [audienceProps]
- * @property {React.ComponentProps<typeof TeamSection>} [teamProps]
- * @property {React.ComponentProps<typeof EarlyAccessCTA>} [ctaProps]
- * @property {React.ComponentProps<typeof Footer>} [footerProps]
- */
+
 export default function Home({
   navProps = {},
   heroProps = {},

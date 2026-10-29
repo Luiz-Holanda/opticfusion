@@ -1,12 +1,6 @@
 'use client';
 
-/**
- * @typedef {Object} AlertProps
- * @property {'success'|'error'|'info'} [type]
- * @property {string} [message]
- * @property {string} [className]
- * @property {React.HTMLAttributes<HTMLDivElement>} rest
- */
+
 const Alert = ({
   type = 'info',
   message = '',

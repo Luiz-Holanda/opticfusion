@@ -10,13 +10,7 @@ import { MathUtils } from '@/utils/math';
 
 const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-/**
- * @typedef {Object} LoginModalProps
- * @property {boolean} isOpen
- * @property {() => void} onClose
- * @property {string} [demoHint]
- * @property {(user: {email:string}) => void} [onLoginSuccess]
- */
+
 const LoginModal = ({
   isOpen,
   onClose,
