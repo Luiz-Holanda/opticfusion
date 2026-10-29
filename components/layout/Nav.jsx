@@ -1,11 +1,13 @@
 'use client';
 
 import Link from 'next/link';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState, useSyncExternalStore } from 'react';
 import { NAV_LINKS } from '@/data/constants';
 import { Button } from '@/components/ui/Button.jsx';
 import { MathUtils } from '@/utils/math';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
+
+const emptySubscribe = () => () => {};
 
 
 const Nav = ({
@@ -22,17 +24,13 @@ const Nav = ({
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
-  const [isMounted, setIsMounted] = useState(false);
+  const isMounted = useSyncExternalStore(emptySubscribe, () => true, () => false);
 
   const totalLinks = useMemo(() => links.length, [links]);
   const visitNumber = useMemo(
     () => MathUtils.round(Number(visitCount) || 0, 0),
     [visitCount]
   );
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
 
   useEffect(() => {
     const nowIso = new Date().toISOString();
