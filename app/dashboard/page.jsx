@@ -116,33 +116,6 @@ function DashboardContent() {
 
       
       <main id="conteudo-principal" role="main" className="container mx-auto w-full flex-1 px-4 py-9">
-        
-        <aside
-          role="note"
-          aria-label="Aviso acadêmico de rota privada"
-          style={{
-            padding: '14px 18px',
-            borderRadius: '12px',
-            background: 'rgba(0, 229, 255, 0.06)',
-            border: '1px solid rgba(0, 229, 255, 0.2)',
-            marginBottom: '32px',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            flexWrap: 'wrap',
-            gap: '12px',
-          }}
-        >
-          <div>
-            <p style={{ margin: 0, fontSize: '13px', fontWeight: 'bold', color: 'var(--cyan)' }}>
-              🛡️ Rota Privada Demonstrativa — Sprint 4 (Web Dev & Front-End Design)
-            </p>
-            <p className="muted" style={{ margin: '4px 0 0', fontSize: '12px' }}>
-              Autenticação e proteção demonstrativa com React Context + LocalStorage. Consumo integrado de API (`/api/analysis`) com estados de loading, success, error e empty.
-            </p>
-          </div>
-          <Badge variant="success">Sessão Ativa</Badge>
-        </aside>
 
         
         <div style={{ marginBottom: '28px' }}>

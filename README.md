@@ -1,114 +1,160 @@
-# OPTIC FUSION
+# OPTIC FUSION — Fotografia Inteligente Movida por IA
 
-> Fotografia inteligente movida por IA.
+> **Challenge JOVI — Sprint 4**  
+> Entrega conjunta das disciplinas de **Web Development** e **Front-End Design**
 
-Landing page do projeto **Optic Fusion** — um assistente de câmera com Inteligência Artificial que analisa o cenário em tempo real, sugere correções de enquadramento, inclinação e iluminação, e ajuda o usuário a capturar fotos melhores no primeiro clique.
-
-Projeto acadêmico desenvolvido para as disciplinas de **Front-End** e **Desenvolvimento Web (React / Next.js)**.
-
----
-
-## Tecnologias utilizadas
-
-Lista de tecnologias **realmente utilizadas** no projeto:
-
-- **Next.js 16** (App Router)
-- **React 19** (componentes funcionais com hooks: `useState`, `useEffect`)
-- **JavaScript** (sem TypeScript, conforme requisito)
-- **CSS Tradicional** (sem Tailwind)
-- **CSS Grid** (sistema principal de layout em TODAS as seções)
-  - `grid-template-columns`
-  - `grid-template-rows`
-  - `grid-template-areas`
-  - `grid-area`
-  - `grid-column: span N`
-  - `grid-row: span N`
-  - `justify-content`
-  - `align-content`
-  - `gap`
-- **Flexbox** (alinhamentos complementares internos)
-- **HTML Semântico**
-  - `<header>`, `<nav>`, `<main>`, `<section>`, `<article>`
-  - `<aside>`, `<figure>`, `<figcaption>`, `<footer>`
-  - `<form>`, `<label>`, `<button>`, `<select>`, `<option>`
-  - `<h1>` até `<h3>` em hierarquia correta
-- **Atributos ARIA** (`aria-label`, `aria-labelledby`, `aria-live`, `aria-invalid`, `role`, etc.)
-- **localStorage** (auto-salvar rascunho do formulário de contato — SSR-safe com `useEffect`)
-- **Objeto Math** (`Math.random()`, `Math.floor()`, `Math.round()`, `Math.max()`, `Math.min()`, `Math.pow()`)
-- **IntersectionObserver** (via hook `useRevealAll` para animações de scroll)
-- **Next/font** (Geist Sans + Geist Mono)
+Landing page e aplicação web do projeto **Optic Fusion** — um assistente de câmera com Inteligência Artificial que analisa o cenário em tempo real, sugere correções de enquadramento pela regra dos terços, ajusta inclinação do horizonte e calibra sensibilidade ISO, permitindo capturar fotografias de padrão profissional no primeiro clique.
 
 ---
 
-## Instalação
+## 👥 Integrantes da Equipe
 
-Pré-requisitos:
-- **Node.js** 18+ (recomendado 20 LTS)
-- **npm** ou **pnpm** / **yarn**
+Conforme registrado oficialmente em `INTEGRANTES.TXT`:
 
-Na raiz do projeto, instale todas as dependências listadas no `package.json`:
+| Nome Completo | RM | Função Principal |
+| :--- | :--- | :--- |
+| **Felipe Ribeiro da Silva** | `573818` | Desenvolvimento Front-End & Integração React |
+| **Luiz Alberto de Carvalho Holanda Junior** | `573843` | UX Design & Arquitetura de Componentes |
+| **Milena Kubo de Biaggi** | `572590` | Pesquisa de Usuários & Análise de Requisitos |
+| **Yasmim Eun Hae Kim** | `571494` | Estratégia de Produto & Gestão do Projeto |
 
+---
+
+## 🚀 Links do Projeto
+
+- **Deploy em Produção (Vercel):** [https://opticfusion-red.vercel.app/](https://opticfusion-red.vercel.app/)
+- **Repositório GitHub:** [https://github.com/Luiz-Holanda/opticfusion](https://github.com/Luiz-Holanda/opticfusion)
+
+---
+
+## 🛠️ Tecnologias Utilizadas
+
+A solução foi construída utilizando ferramentas modernas de desenvolvimento web:
+
+- **Next.js 16 (App Router com Turbopack):** Framework React para renderização híbrida, roteamento baseado em arquivos e API Routes.
+- **React 19:** Biblioteca base com componentes funcionais modernos e hooks avançados:
+  - Hooks nativos: `useState`, `useEffect`, `useMemo`, `useCallback`, `useContext`, `useSyncExternalStore`.
+- **Tailwind CSS + PostCSS + Autoprefixer:** Framework utilitário de estilização responsiva, harmonizado com o sistema visual cinematográfico dark theme da Sprint 3.
+- **CSS Grid & Flexbox:** Sistemas estruturais para alinhamento multidimensional e responsividade em Mobile, Tablet e Desktop.
+- **API Routes (Next.js Handler):** Endpoint nativo `GET /api/analysis` para fornecimento de telemetria e análise de visão computacional com IA.
+- **Vitest & React Testing Library:** Suíte automatizada com 81 testes cobrindo utilitários matemáticos, persistência, autenticação demonstrativa, consumo de API e o hook customizado.
+- **ESLint 9:** Validação estática de código com regras do React Compiler (`eslint-config-next`) com zero advertências e zero erros.
+- **Acessibilidade (WCAG 2.1 AA):** Skip link de navegação rápida por teclado (`.skip-link`), estados de foco de alto contraste (`:focus-visible`), textos alternativos e atributos ARIA semânticos.
+
+---
+
+## 🧭 Estrutura de Rotas (Públicas e Privadas)
+
+O projeto implementa uma arquitetura de rotas organizada pelo Next.js App Router:
+
+### 1. Rotas Públicas
+- **`/` (Landing Page):** Página inicial completa com as 10 seções da Sprint 3 (Hero, O Problema, A Solução, Jornada em 5 Etapas, Demonstração Antes/Depois, Funcionalidades com IA, Destaques, Público-Alvo, Equipe e Formulário de Early Access com auto-save).
+- **`/login`:** Página dedicada de autenticação com formulário acessível, atalhos de preenchimento rápido de credenciais de teste e explicações sobre o escopo demonstrativo.
+- **`/consulta-rm`:** Página pública para busca e validação da identificação dos 4 integrantes da equipe por RM ou nome.
+- **`app/not-found.jsx` (404):** Página personalizada para rotas inexistentes com opção de retorno à navegação principal.
+
+### 2. Rota Privada (Protegida)
+- **`/dashboard` (Optic Fusion Studio):** Painel restrito de telemetria fotográfica com IA.
+  - Acessível **apenas** quando o usuário possui sessão ativa no `AuthContext`.
+  - Caso um usuário não autenticado tente acessar diretamente a URL `/dashboard`, o componente `ProtectedRoute` bloqueia o conteúdo e exibe o estado de acesso não autorizado, fornecendo link para autenticação.
+
+> ⚠️ **Nota Acadêmica sobre Proteção de Rotas:**  
+> A proteção da rota `/dashboard` opera em camada de cliente através de `React Context` (`context/AuthContext.jsx`) e persistência em `localStorage`. Essa abordagem atende plenamente aos requisitos de escopo acadêmico da Sprint 4 sem necessidade de backend com banco de dados. Em um ambiente corporativo de produção, deve ser substituída por tokens JWT assinados via cookies HTTP-only e middleware no servidor.
+
+---
+
+## 🔑 Credenciais de Teste para Avaliação
+
+Para testar a autenticação na página `/login` ou no modal da página inicial, utilize qualquer um dos dois usuários cadastrados:
+
+| E-mail de Teste | Senha | Perfil no Studio |
+| :--- | :--- | :--- |
+| `jovi@opticfusion.com` | `jovi2025` | Operador / Fotógrafo Beta Tester |
+| `admin@jovi.com` | `admin123` | Administrador / Tech Lead JOVI |
+
+*A tela de login conta ainda com botões de "Preenchimento Rápido" para agilizar a validação pelos avaliadores.*
+
+---
+
+## 🎣 Hooks Nativos e Hook Customizado
+
+### 1. Hook Customizado: `usePhotoAnalysis` (`hooks/usePhotoAnalysis.js`)
+Separa a lógica de requisição e telemetria da camada de apresentação:
+- Realiza a comunicação assíncrona com o endpoint `/api/analysis`.
+- Gerencia os estados de:
+  - `isLoading`: indicador de carregamento.
+  - `result`: dados de inferência fotográfica.
+  - `error`: captura de falhas de rede com suporte a nova tentativa (retry).
+  - `isEmpty`: tratamento de ausência de resultados.
+  - `history`: armazenamento das últimas 5 análises realizadas na sessão.
+- Utiliza `useMemo` para computar a nota de qualidade geral (A+, A, B, C) e a pontuação média histórica.
+- Possui fallback algorítmico seguro garantindo estabilidade caso o ambiente de rede esteja offline.
+
+### 2. Contexto de Autenticação: `AuthContext` (`context/AuthContext.jsx`)
+- Provedor global com `createContext` e hook consumidor `useAuth()`.
+- Utiliza `useSyncExternalStore` para sincronização SSR-safe com o armazenamento local, evitando renderizações em cascata e eliminando warnings do React 19.
+
+### 3. Outros Hooks Auxiliares
+- `useLocalStorage` (`hooks/useLocalStorage.js`): Persistência reativa SSR-safe com fallback em caso de storage desabilitado.
+- `useModal` (`hooks/useModal.js`): Controle acessível de abertura/fechamento de modais.
+- `useReveal` (`hooks/useReveal.js`): Animações de entrada no scroll com `IntersectionObserver`.
+
+---
+
+## 📡 Consumo de API: Endpoint `/api/analysis`
+
+O projeto inclui um Route Handler nativo em Next.js (`app/api/analysis/route.js`) que simula a resposta do modelo neural de visão computacional da Optic Fusion:
+
+- **Método:** `GET`
+- **Exemplo de chamada:** `/api/analysis?sample=portrait-ideal&delay=400`
+- **Parâmetros suportados:**
+  - `sample=portrait-ideal`: Retorna análise com pontuação alta (96/100) e alinhamento áureo.
+  - `sample=portrait-tilt`: Retorna análise com inclinação acentuada (-3.8°) e instrução de correção.
+  - `sample=landscape-urban`: Retorna métricas para fotos urbanas.
+  - `sample=empty`: Retorna `{ items: [], total: 0 }` para demonstrar o **Empty State**.
+  - `sample=error`: Retorna status HTTP 500 para demonstrar o **Error State** com feedback de erro e botão de retry.
+
+---
+
+## 📦 Como Instalar e Executar Localmente
+
+### Pré-requisitos
+- **Node.js:** versão 20.9 ou superior. Next.js 16 não oferece suporte ao Node.js 18.
+- **npm:** Versão 10.x ou superior.
+
+### 1. Clonar o repositório
 ```bash
-npm install
+git clone https://github.com/Luiz-Holanda/opticfusion.git
+cd opticfusion
 ```
 
----
+### 2. Instalar dependências
+```bash
+npm ci
+```
 
-## Execução
-
-### Ambiente de desenvolvimento
-
+### 3. Executar o ambiente de desenvolvimento
 ```bash
 npm run dev
 ```
+Acesse no seu navegador: **[http://localhost:3000](http://localhost:3000)**. A rota `/api/analysis` é servida pelo mesmo processo Next.js; não é necessário iniciar um servidor separado.
 
-Abra no navegador o endereço exibido no terminal (padrão: **http://localhost:3000**).
+### 4. Executar os testes automatizados
+```bash
+npm test
+```
+*Executa 81 testes com Vitest cobrindo todos os módulos do projeto.*
 
----
+### 5. Executar o linter (ESLint)
+```bash
+npm run lint
+```
 
-## Build (produção)
-
-### 1. Gerar versão otimizada
-
+### 6. Gerar build de produção e iniciar
 ```bash
 npm run build
-```
-
-O Next.js vai compilar as páginas, gerar assets otimizados e validar o projeto.
-
-### 2. Iniciar servidor de produção
-
-```bash
 npm start
 ```
-
-A aplicação será servida na porta **3000** (padrão).
-
----
-
-## Autenticação
-
-A landing page possui dois modais de demonstração para área interna:
-
-### 1. Modal de Login (Acesso interno)
-
-| E-mail                  | Senha       |
-| ----------------------- | ----------- |
-| `jovi@opticfusion.com`  | `jovi2025`  |
-| `admin@jovi.com`        | `admin123`  |
-
-### 2. Modal de Consulta por RM
-
-RMs válidos (consulta na base em `data/constants.js`):
-
-| RM       | Nome Completo   |
-| -------- | --------------- |
-| `573818` | Felipe Ribeiro  |
-| `573843` | Luiz Alberto    |
-| `572590` | Milena Kubo     |
-| `571494` | Yasmim Kim      |
-
-> **Atenção:** Autenticação e consulta de RM são **apenas demonstrações em front-end**, sem back-end real ou banco de dados. Não há persistência de sessão.
 
 ---
 
@@ -122,117 +168,38 @@ Em conformidade com os critérios éticos e diretrizes acadêmicas da Sprint 4, 
 
 A equipe revisou as alterações e mantém a responsabilidade pelo conteúdo, pelas decisões de projeto e pela validação final da entrega.
 
+---
+
+## ☁️ Instruções de Deploy na Vercel
+
+O projeto está configurado no padrão zero-config da Vercel para Next.js App Router:
+
+1. Acesse o painel da [Vercel](https://vercel.com/) e clique em **Add New → Project**.
+2. Conecte sua conta do GitHub e importe o repositório `Luiz-Holanda/opticfusion`.
+3. Verifique as configurações:
+   - **Framework Preset:** `Next.js`
+   - **Root Directory:** `./`
+   - **Build Command:** `npm run build`
+   - **Output Directory:** `.next`
+4. Clique em **Deploy**. A Vercel executará o build e publicará a aplicação automaticamente.
+
+Link ativo: **[https://opticfusion-red.vercel.app/](https://opticfusion-red.vercel.app/)**
 
 ---
 
-## Deploy na Vercel
+## 🗜️ Instruções para Geração do Pacote ZIP de Entrega
 
-> Status: **Preparado para deploy** — configurações Next.js 16 padrão compatíveis com a Vercel, zero-config.
+Para preparar o pacote limpo para submissão no portal acadêmico, execute os comandos dentro da pasta `OpticFusion_Sprint4_Entrega`. O arquivo ZIP será criado na pasta pai:
 
-### Como publicar na Vercel (passo a passo)
+1. Certifique-se de que o projeto foi validado (`npm test`, `npm run lint`, `npm run build`).
+2. Garanta que pastas temporárias (`node_modules`, `.next`, `.git`, `.coverage`) **não** sejam compactadas.
+3. No terminal do PowerShell, execute o comando abaixo para gerar o arquivo compactado limpo na raiz:
 
-1. **Crie/acesse** sua conta em [vercel.com](https://vercel.com/).
-2. Clique em **Add New → Project**.
-3. **Importe este repositório GitHub**.
-4. Na tela **Configure Project**:
-   - **Framework Preset**: `Next.js` (detectado automaticamente)
-   - **Build Command**: `next build` (ou `npm run build`)
-   - **Output Directory**: `.next` (padrão)
-   - **Root Directory**: `./`
-   - **Install Command**: `npm install`
-5. Em **Environment Variables** — nenhuma variável é obrigatória para a landing page. Se usar APIs futuramente, cadastre-as aqui.
-6. Clique em **Deploy**.
-
-Link de produção após deploy:
-```
-https://opticfusion-red.vercel.app/
-```
-
-> ✅ O build `npm run build` já foi validado localmente com sucesso. O deploy na Vercel vai repetir exatamente o mesmo processo.
-
----
-
-## GitHub
-
-Link do repositório:
-```
-https://github.com/Luiz-Holanda/opticfusion
-```
-
-### Status do versionamento
-
-- [x] `.gitignore` configurado (Node, Next, Vercel, IDE, archives .zip)
-- [x] Nenhum segredo / credencial versionado
-- [x] Estrutura organizada por responsabilidade (`app/`, `components/`, `data/`, `hooks/`, `public/`)
-
----
-
-## Estrutura de pastas
-
-```
-opticfusion/
-├── app/
-│   ├── globals.css              # CSS global, breakpoints mobile-first, CSS Grid completo
-│   ├── layout.jsx               # HTML raiz, metadata, fontes (Next App Router)
-│   ├── page.jsx                 # Página inicial: monta Header → Main → Seções → Footer
-│   └── page.module.css          # Estilos escopados de página
-├── components/
-│   ├── layout/
-│   │   ├── Footer.jsx           # Rodapé semântico com 3 colunas em Grid
-│   │   ├── Modal.jsx            # Modal base reutilizável (pai → filhos Login/RMLookup)
-│   │   └── Nav.jsx              # Navegação fixa (também em Grid: brand / links / CTA)
-│   ├── modals/
-│   │   ├── LoginModal.jsx       # Login com validação e 2 usuários demo
-│   │   └── RMLookupModal.jsx    # Busca de integrante por RM
-│   ├── sections/                # 10 seções React funcionais independentes
-│   │   ├── DemoSection.jsx      # Comparação interativa "Antes/Depois"
-│   │   ├── EarlyAccessCTA.jsx   # Formulário de contato c/ localStorage SSR-safe
-│   │   ├── ExperienceSteps.jsx  # Passo a passo (5 etapas em Grid)
-│   │   ├── FeaturesSection.jsx  # Funcionalidades (Grid de 6 cards)
-│   │   ├── GallerySection.jsx   # Galeria com <figure>/<figcaption> + <aside>
-│   │   ├── Hero.jsx             # Cabeçalho c/ estatísticas (Math)
-│   │   ├── HighlightsSection.jsx# Carrossel com 3 slides (botões Grid)
-│   │   ├── ProblemSection.jsx   # "Dores" / pontos do problema (Grid 3 cards)
-│   │   ├── TargetAudienceSection.jsx # 4 perfis de público-alvo
-│   │   └── TeamSection.jsx      # Equipe com 4 TeamCards (props pai→filho)
-│   └── ui/
-│       ├── Alert.jsx            # Feedback visual do formulário
-│       ├── Button.jsx           # Botão reutilizável com variants/sizes via props
-│       └── TeamCard.jsx         # Card de integrante (props: name, role, rm, desc)
-├── data/
-│   └── constants.js             # Dados: TEAM, FEATURES, NAV_LINKS, GALLERY_ITEMS, etc.
-├── hooks/
-│   ├── useModal.js              # Hook para estado de abertura/fechamento de modais
-│   └── useReveal.js             # Hook com IntersectionObserver (animações reveal)
-├── public/
-│   └── img/                     # Logos, telas mockadas, favicon
-│       ├── TELA1-5.jpg          # Telas do fluxo de 5 passos
-│       ├── slide1-3.png         # Telas do carrossel Highlights
-│       ├── before.png/after.png # Comparação Antes/Depois (Demo)
-│       ├── logo.png             # Logotipo horizontal
-│       └── logo.ico             # Favicon
-├── INTEGRANTES.TXT              # Nome completo + RM de cada integrante
-├── orientações.txt              # Requisitos acadêmicos da entrega
-├── README.md                    # Este arquivo
-├── package.json
-├── package-lock.json
-├── jsconfig.json                # Alias @/ → ./
-├── eslint.config.mjs
-├── next.config.mjs
-└── .gitignore                   # Next.js + Vercel + IDE + archives
+```powershell
+$itens = Get-ChildItem -Force | Where-Object { $_.Name -notin @('node_modules', '.next', '.git', 'coverage', '.coverage') }
+Compress-Archive -Path $itens.FullName -DestinationPath ..\OpticFusion_Sprint4_Entrega.zip -Force
 ```
 
 ---
 
-
-
-### Entrega
-
-- ✅ `README.md` completo (100% das seções)
-- ✅ `INTEGRANTES.TXT` na raiz, com 4 integrantes reais + RM
-- ✅ `npm run dev` inicia sem erros
-- ✅ `npm run build` compila sem erros (validar no final)
-
----
-
-**Equipe Optic Fusion • Projeto acadêmico • 2026**
+**Equipe Optic Fusion • FIAP • Challenge JOVI 2026**
