@@ -68,7 +68,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="pt-BR" className={FONT_VARIABLES}>
       <body>
-        <AuthProvider>{children}</AuthProvider>
+        <AuthProvider>
+          {children}
+        </AuthProvider>
       </body>
     </html>
   );

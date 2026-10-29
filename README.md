@@ -122,6 +122,7 @@ Em conformidade com os critérios éticos e diretrizes acadêmicas da Sprint 4, 
 
 A equipe revisou as alterações e mantém a responsabilidade pelo conteúdo, pelas decisões de projeto e pela validação final da entrega.
 
+
 ---
 
 ## Deploy na Vercel
