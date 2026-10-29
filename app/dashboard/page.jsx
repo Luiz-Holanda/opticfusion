@@ -63,7 +63,7 @@ function DashboardContent() {
   };
 
   return (
-    <div className="page" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+    <div className="page min-h-screen flex flex-col">
       <a href="#conteudo-principal" className="skip-link">
         Pular para o conteúdo principal
       </a>
@@ -81,7 +81,7 @@ function DashboardContent() {
         }}
       >
         <div
-          className="container"
+          className="container mx-auto w-full px-4 sm:px-6 lg:px-8"
           style={{
             display: 'flex',
             justifyContent: 'space-between',
@@ -115,7 +115,7 @@ function DashboardContent() {
       </header>
 
       
-      <main id="conteudo-principal" role="main" className="container" style={{ flex: 1, padding: '36px 16px' }}>
+      <main id="conteudo-principal" role="main" className="container mx-auto w-full flex-1 px-4 py-9">
         
         <aside
           role="note"
@@ -156,14 +156,7 @@ function DashboardContent() {
         </div>
 
         
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-            gap: '16px',
-            marginBottom: '32px',
-          }}
-        >
+        <div className="mb-8 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
           <StatCard value="98.4" unit="%" label="Precisão de Enquadramento" />
           <StatCard value="18" unit="ms" label="Latência de Inferência" />
           <StatCard value={history.length} label="Análises na Sessão" />
@@ -173,16 +166,10 @@ function DashboardContent() {
         
         <section
           aria-labelledby="api-station-title"
-          className="glass-panel"
-          style={{
-            padding: '28px',
-            borderRadius: '16px',
-            border: '1px solid rgba(0, 229, 255, 0.25)',
-            marginBottom: '32px',
-            background: 'linear-gradient(180deg, rgba(10, 13, 20, 0.9), rgba(5, 6, 10, 0.95))',
-          }}
+          className="glass-panel mb-8 rounded-2xl border border-cyan-400/25 p-5 sm:p-7"
+          style={{ background: 'linear-gradient(180deg, rgba(10, 13, 20, 0.9), rgba(5, 6, 10, 0.95))' }}
         >
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '16px', marginBottom: '20px' }}>
+          <div className="mb-5 flex flex-col justify-between gap-4 sm:flex-row sm:items-start">
             <div>
               <p className="kicker" style={{ color: 'var(--cyan)' }}>Consumo de API em Tempo Real</p>
               <h2 id="api-station-title" style={{ fontSize: '22px', margin: '4px 0 8px' }}>
@@ -202,19 +189,7 @@ function DashboardContent() {
           </div>
 
           
-          <div
-            style={{
-              display: 'flex',
-              gap: '12px',
-              flexWrap: 'wrap',
-              alignItems: 'center',
-              padding: '16px',
-              borderRadius: '12px',
-              background: 'rgba(255, 255, 255, 0.03)',
-              border: '1px solid var(--border)',
-              marginBottom: '24px',
-            }}
-          >
+          <div className="mb-6 flex flex-col items-stretch gap-3 rounded-xl border border-white/10 bg-white/[0.03] p-4 sm:flex-row sm:items-center">
             <label htmlFor="sample-selector" style={{ fontSize: '13px', fontWeight: 'bold' }}>
               Amostra para teste:
             </label>
@@ -483,7 +458,7 @@ function DashboardContent() {
         </section>
 
         
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '24px' }}>
+        <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
           
           <Card className="glass-panel" style={{ padding: '24px', borderRadius: '16px', border: '1px solid var(--border)' }}>
             <h2 style={{ fontSize: '18px', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>

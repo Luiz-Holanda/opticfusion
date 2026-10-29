@@ -19,7 +19,7 @@ export default function ConsultaRmPage() {
   );
 
   return (
-    <div className="page" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+    <div className="page min-h-screen flex flex-col">
       <header role="banner" style={{ borderBottom: '1px solid var(--border)', background: 'var(--panel-bg)' }}>
         <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '64px' }}>
           <Link href="/" className="brand" aria-label="Voltar para a página inicial">
@@ -39,7 +39,7 @@ export default function ConsultaRmPage() {
         </div>
       </header>
 
-      <main id="conteudo-principal" role="main" className="container" style={{ flex: 1, padding: '48px 16px' }}>
+      <main id="conteudo-principal" role="main" className="container mx-auto w-full flex-1 px-4 py-12">
         <div style={{ maxWidth: '800px', margin: '0 auto' }}>
           <header className="section-head" style={{ textAlign: 'center', marginBottom: '32px' }}>
             <p className="kicker">Consulta de Integrantes</p>
@@ -101,7 +101,7 @@ export default function ConsultaRmPage() {
             </div>
           </div>
 
-          <div className="team-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '20px' }}>
+          <div className="grid grid-cols-[repeat(auto-fit,minmax(260px,1fr))] gap-5">
             {filtered.length > 0 ? (
               filtered.map((member, idx) => (
                 <div

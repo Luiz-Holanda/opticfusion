@@ -57,7 +57,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="page" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+    <div className="page min-h-screen flex flex-col">
       <header role="banner" style={{ borderBottom: '1px solid var(--border)', background: 'var(--panel-bg)' }}>
         <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '64px' }}>
           <Link href="/" className="brand" aria-label="Voltar para a página inicial">
@@ -73,16 +73,7 @@ export default function LoginPage() {
       </header>
 
       <main id="conteudo-principal" role="main" style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '48px 16px' }}>
-        <div
-          className="glass-panel"
-          style={{
-            maxWidth: '480px',
-            width: '100%',
-            padding: '36px',
-            borderRadius: '16px',
-            border: '1px solid var(--border)',
-          }}
-        >
+        <div className="glass-panel mx-auto w-full max-w-md rounded-2xl border border-white/10 p-6 sm:p-9">
           <p className="kicker" style={{ textAlign: 'center' }}>Área Restrita</p>
           <h1 style={{ fontSize: '24px', textAlign: 'center', marginTop: '6px', marginBottom: '8px' }}>
             Acesso Interno
