@@ -1,5 +1,6 @@
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
+import { AuthProvider } from '@/context/AuthContext';
 
 
 
@@ -67,7 +68,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="pt-BR" className={FONT_VARIABLES}>
       <body>
-        {children}
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   );
