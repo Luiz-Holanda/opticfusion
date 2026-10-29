@@ -14,9 +14,9 @@ const Button = ({
   ...rest
 }) => {
   const SIZE_CLASSES = { sm: 'btn-sm', md: '', lg: 'btn-lg' };
-  const VARIANT_CLASSES = { primary: 'btn-primary', ghost: 'btn-ghost' };
+  const VARIANT_CLASSES = { primary: 'btn-primary', ghost: 'btn-ghost', danger: 'btn-danger' };
 
-  const classes = `btn ${SIZE_CLASSES[size]} ${VARIANT_CLASSES[variant]} ${className}`.trim();
+  const classes = `btn ${SIZE_CLASSES[size] || ''} ${VARIANT_CLASSES[variant] || 'btn-ghost'} ${className}`.trim();
 
   if (asLink && href) {
     return (

@@ -3,6 +3,7 @@
 import { useRevealAll } from '@/hooks/useReveal';
 import { useCallback, useState } from 'react';
 import { SLIDES } from '@/data/constants';
+import { SectionHeader } from '@/components/ui/SectionHeader.jsx';
 
 
 const HighlightsSection = ({
@@ -29,12 +30,11 @@ const HighlightsSection = ({
   return (
     <section id="highlights" className="section section--wide section--dark" ref={revealRef}>
       <div className="container">
-        <header className="section-head">
-          <p className="kicker reveal">{kicker}</p>
-          <h2 className="reveal">
-            {titlePrefix} <span className="grad">{titleHighlight}</span>.
-          </h2>
-        </header>
+        <SectionHeader
+          kicker={kicker}
+          title={titlePrefix}
+          titleHighlight={titleHighlight}
+        />
 
         <div className="carousel reveal" aria-label="Slideshow de destaques">
           <button className="car-btn" id="prevSlide" aria-label="Anterior" onClick={prev}>

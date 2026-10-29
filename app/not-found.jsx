@@ -3,7 +3,10 @@ import { Button } from '@/components/ui/Button.jsx';
 
 export default function NotFound() {
   return (
-    <div className="page" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+    <div className="page min-h-screen flex flex-col">
+      <a href="#conteudo-principal" className="skip-link">
+        Pular para o conteúdo principal
+      </a>
       <header role="banner" style={{ borderBottom: '1px solid var(--border)', background: 'var(--panel-bg)' }}>
         <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '64px' }}>
           <Link href="/" className="brand" aria-label="Ir para a página inicial">

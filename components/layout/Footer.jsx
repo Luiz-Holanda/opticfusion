@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import { TEAM } from '@/data/constants';
 
 
@@ -8,30 +8,17 @@ const Footer = ({
   logoSrc = '/img/logo.png',
   brandTitle = 'OPTIC',
   brandHighlight = 'FUSION',
-  tagline = 'Optic Fusion — Te ajudando à ver o mundo de um ângulo melhor',
+  tagline = 'Optic Fusion — Te ajudando a ver o mundo de um ângulo melhor.',
   links = [
-    { label: 'A Solução', href: '#solution' },
-    { label: 'Público-Alvo', href: '#target-audience' },
-    { label: 'Nossa Equipe', href: '#team' },
-    { label: 'Contato', href: '#contact' },
+    { label: 'A Solução', href: '/#solution' },
+    { label: 'Público-Alvo', href: '/#target-audience' },
+    { label: 'Nossa Equipe', href: '/#team' },
+    { label: 'Consulta RM', href: '/consulta-rm' },
+    { label: 'Área Interna', href: '/login' },
   ],
   legal = '© 2026 OPTIC FUSION. Todos os direitos reservados.',
-  techStack = 'Desenvolvido com Next.js, React, JavaScript e CSS Grid.',
+  techStack = 'Desenvolvido com Next.js, React, Tailwind CSS e API Routes.',
 }) => {
-  const [year] = useState(() => {
-    if (typeof window === 'undefined') return null;
-    return new Date().getFullYear();
-  });
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    const id = window.setTimeout(() => setMounted(true), 0);
-    return () => window.clearTimeout(id);
-  }, []);
-
-  const displayYear = mounted ? (year ?? new Date().getFullYear()) : null;
-  const legalText = displayYear ? legal.replace('2026', String(displayYear)) : legal;
-
   return (
     <footer
       className="footer"
@@ -41,7 +28,7 @@ const Footer = ({
       <div className="container">
         <div className="footer-inner">
           <article className="footer-brand">
-            <a href="#top" className="brand" aria-label="Voltar ao topo">
+            <Link href="/#top" className="brand" aria-label="Voltar ao topo">
               <img
                 src={logoSrc}
                 alt={`Logotipo ${brandTitle} ${brandHighlight}`}
@@ -52,7 +39,7 @@ const Footer = ({
               <span className="brand-text">
                 {brandTitle} <span>{brandHighlight}</span>
               </span>
-            </a>
+            </Link>
             <p className="muted" style={{ marginTop: '12px' }}>{tagline}</p>
           </article>
 
@@ -63,7 +50,7 @@ const Footer = ({
             <ul className="footer-links" style={{ listStyle: 'none', margin: 0, padding: 0 }}>
               {links.map(({ label, href }) => (
                 <li key={href}>
-                  <a href={href}>{label}</a>
+                  <Link href={href}>{label}</Link>
                 </li>
               ))}
             </ul>
@@ -76,10 +63,10 @@ const Footer = ({
             >
               Informações
             </h3>
-            <p>{legalText}</p>
+            <p>{legal}</p>
             <p className="muted">{techStack}</p>
             <p className="muted" style={{ fontSize: '.85rem' }}>
-              {TEAM.length} integrantes • Projeto acadêmico
+              {TEAM.length} integrantes • Projeto acadêmico Sprint 4
             </p>
           </article>
         </div>

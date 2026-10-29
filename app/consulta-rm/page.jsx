@@ -20,6 +20,9 @@ export default function ConsultaRmPage() {
 
   return (
     <div className="page min-h-screen flex flex-col">
+      <a href="#conteudo-principal" className="skip-link">
+        Pular para o conteúdo principal
+      </a>
       <header role="banner" style={{ borderBottom: '1px solid var(--border)', background: 'var(--panel-bg)' }}>
         <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', height: '64px' }}>
           <Link href="/" className="brand" aria-label="Voltar para a página inicial">

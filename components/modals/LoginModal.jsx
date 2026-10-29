@@ -7,6 +7,8 @@ import { VALID_USERS } from '@/data/constants';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { MathUtils } from '@/utils/math';
+import { useAuth } from '@/context/AuthContext';
+import { useRouter } from 'next/navigation';
 
 const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
@@ -17,6 +19,8 @@ const LoginModal = ({
   demoHint = 'Demo: jovi@opticfusion.com / jovi2025',
   onLoginSuccess = () => {},
 }) => {
+  const router = useRouter();
+  const { login } = useAuth();
   const {
     value: rememberedEmail,
     setValue: setRememberedEmail,
@@ -75,7 +79,7 @@ const LoginModal = ({
   }, [forgetEmail]);
 
   const handleSubmit = useCallback(
-    (e) => {
+    async (e) => {
       e.preventDefault();
       const { email, password } = fields;
       const newErrors = {};
@@ -92,26 +96,29 @@ const LoginModal = ({
         return;
       }
 
-      const found = VALID_USERS.find((u) => u.email === email.trim() && u.password === password);
+      const res = await login(email, password);
 
-      if (found) {
+      if (res.success) {
         if (remember) {
-          setRememberedEmail(found.email);
+          setRememberedEmail(email.trim());
         } else {
           forgetEmail();
         }
         const newCount = MathUtils.round(Number(loginCount) || 0, 0) + 1;
         setLoginCount(newCount);
 
-        window.alert(`Login realizado com sucesso! (Tentativa #${newCount})`);
-        setAlert({ type: 'success', message: 'Acesso liberado! Bem-vindo.' });
-        setFields({ email: remember ? found.email : '', password: '' });
-        onLoginSuccess({ email: found.email });
+        setAlert({ type: 'success', message: 'Acesso liberado! Redirecionando para o Studio...' });
+        setFields({ email: remember ? email.trim() : '', password: '' });
+        onLoginSuccess({ email: email.trim() });
+        setTimeout(() => {
+          onClose();
+          router.push('/dashboard');
+        }, 600);
       } else {
-        setAlert({ type: 'error', message: 'E-mail ou senha incorretos.' });
+        setAlert({ type: 'error', message: res.error || 'E-mail ou senha incorretos.' });
       }
     },
-    [fields, remember, loginCount, setRememberedEmail, setLoginCount, forgetEmail, onLoginSuccess]
+    [fields, remember, loginCount, setRememberedEmail, setLoginCount, forgetEmail, onLoginSuccess, login, onClose, router]
   );
 
   return (

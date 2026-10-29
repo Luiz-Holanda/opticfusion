@@ -40,6 +40,10 @@ export default function Home({
 
   return (
     <div className="page">
+      <a href="#conteudo-principal" className="skip-link">
+        Pular para o conteúdo principal
+      </a>
+
       <header role="banner">
         <Nav {...sharedHandlers} {...navProps} />
       </header>

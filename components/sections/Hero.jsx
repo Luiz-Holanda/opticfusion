@@ -2,6 +2,8 @@
 
 import { useRevealAll } from '@/hooks/useReveal';
 import { Button } from '@/components/ui/Button.jsx';
+import { Badge } from '@/components/ui/Badge.jsx';
+import { StatCard } from '@/components/ui/StatCard.jsx';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { HERO_STATS_LABELS, SOLUTION_ASIDE_FACTS } from '@/data/constants';
 import { MathUtils } from '@/utils/math';
@@ -116,7 +118,7 @@ const Hero = ({
 
           <div className="trust reveal" aria-label="Selos de confiança">
             {trustBadges.map((badge) => (
-              <span className="pill" key={badge}>{badge}</span>
+              <Badge variant="cyan" key={badge}>{badge}</Badge>
             ))}
           </div>
 
@@ -126,16 +128,11 @@ const Hero = ({
             role="group"
           >
             {stats.map((stat, idx) => (
-              <article className="stat-card" key={`stat-${idx}`}>
-                <span
-                  className="stat-number"
-                  aria-live="polite"
-                  aria-atomic="true"
-                >
-                  {stat.number}%
-                </span>
-                <p className="stat-label">{stat.label}</p>
-              </article>
+              <StatCard
+                key={`stat-${idx}`}
+                value={`${stat.number}%`}
+                label={stat.label}
+              />
             ))}
           </div>
         </div>
