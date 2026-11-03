@@ -2,19 +2,9 @@
 
 import { useRevealAll } from '@/hooks/useReveal';
 import { PAIN_POINTS } from '@/data/constants';
+import { SectionHeader } from '@/components/ui/SectionHeader.jsx';
 
-/**
- * @typedef {Object} PainPoint
- * @property {'tilt'|'crop'|'light'} variant
- * @property {string} title
- * @property {string} desc
- *
- * @typedef {Object} ProblemSectionProps
- * @property {string} [kicker]
- * @property {string} [title]
- * @property {string} [description]
- * @property {PainPoint[]} [items]
- */
+
 const ProblemSection = ({
   kicker = 'O problema',
   title = 'Você já perdeu uma foto perfeita por um pequeno detalhe?',
@@ -26,11 +16,11 @@ const ProblemSection = ({
   return (
     <section id="problem" className="section section--wide" ref={revealRef}>
       <div className="container">
-        <header className="section-head">
-          <p className="kicker reveal">{kicker}</p>
-          <h2 className="reveal">{title}</h2>
-          <p className="muted reveal">{description}</p>
-        </header>
+        <SectionHeader
+          kicker={kicker}
+          title={title}
+          description={description}
+        />
 
         <div className="pain-points">
           {items.map(({ variant, title: itemTitle, desc, ...rest }) => (

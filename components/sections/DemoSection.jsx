@@ -5,17 +5,7 @@ import { useCallback, useMemo, useState } from 'react';
 import { DEMO_BULLETS } from '@/data/constants';
 import { MathUtils } from '@/utils/math';
 
-/**
- * @typedef {Object} DemoSectionProps
- * @property {string} [kicker]
- * @property {string} [titlePrefix]
- * @property {string} [titleHighlight]
- * @property {string} [description]
- * @property {string} [beforeImg]
- * @property {string} [afterImg]
- * @property {number} [initialPos]
- * @property {string[]} [bullets]
- */
+
 const DemoSection = ({
   kicker = 'Demonstração',
   titlePrefix = 'Seu enquadramento.',
@@ -29,6 +19,7 @@ const DemoSection = ({
   const [pos, setPos] = useState(initialPos);
   const revealRef = useRevealAll();
 
+  // Mantém o divisor da comparação afastado das bordas da imagem.
   const clampedPos = useMemo(() => MathUtils.clamp(pos, 10, 90), [pos]);
   const posPct = clampedPos + '%';
   const cssVarStyle = { '--pos': posPct };

@@ -3,20 +3,9 @@
 import { useRevealAll } from '@/hooks/useReveal';
 import { useCallback, useState } from 'react';
 import { SLIDES } from '@/data/constants';
+import { SectionHeader } from '@/components/ui/SectionHeader.jsx';
 
-/**
- * @typedef {Object} Slide
- * @property {string} badge
- * @property {string} title
- * @property {string} text
- * @property {string} image
- *
- * @typedef {Object} HighlightsSectionProps
- * @property {string} [kicker]
- * @property {string} [titlePrefix]
- * @property {string} [titleHighlight]
- * @property {Slide[]} [slides]
- */
+
 const HighlightsSection = ({
   kicker = 'Highlights',
   titlePrefix = 'A experiência de câmera que parece',
@@ -27,6 +16,7 @@ const HighlightsSection = ({
   const revealRef = useRevealAll();
 
   const goTo = useCallback((idx) => setCurrent(idx), []);
+  // O módulo mantém o carrossel circular ao avançar ou voltar.
   const prev = useCallback(
     () => setCurrent((c) => (c - 1 + slides.length) % slides.length),
     [slides.length]
@@ -41,12 +31,11 @@ const HighlightsSection = ({
   return (
     <section id="highlights" className="section section--wide section--dark" ref={revealRef}>
       <div className="container">
-        <header className="section-head">
-          <p className="kicker reveal">{kicker}</p>
-          <h2 className="reveal">
-            {titlePrefix} <span className="grad">{titleHighlight}</span>.
-          </h2>
-        </header>
+        <SectionHeader
+          kicker={kicker}
+          title={titlePrefix}
+          titleHighlight={titleHighlight}
+        />
 
         <div className="carousel reveal" aria-label="Slideshow de destaques">
           <button className="car-btn" id="prevSlide" aria-label="Anterior" onClick={prev}>

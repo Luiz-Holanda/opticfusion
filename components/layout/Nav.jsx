@@ -1,21 +1,16 @@
 'use client';
 
 import Link from 'next/link';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState, useSyncExternalStore } from 'react';
 import { NAV_LINKS } from '@/data/constants';
 import { Button } from '@/components/ui/Button.jsx';
 import { MathUtils } from '@/utils/math';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
+import { useAuth } from '@/context/AuthContext';
 
-/**
- * @typedef {Object} NavProps
- * @property {() => void} [onOpenLogin]
- * @property {() => void} [onOpenRMLookup]
- * @property {{label:string,href:string}[]} [links]
- * @property {string} [brandLogo]
- * @property {string} [brandTitle]
- * @property {string} [brandHighlight]
- */
+const emptySubscribe = () => () => {};
+
+
 const Nav = ({
   onOpenLogin = () => {},
   onOpenRMLookup = () => {},
@@ -24,13 +19,14 @@ const Nav = ({
   brandTitle = 'OPTIC',
   brandHighlight = 'FUSION',
 }) => {
+  const { isAuthenticated } = useAuth();
   const { value: lastVisit, setValue: setLastVisit } = useLocalStorage('opticfusion:last-visit', null);
   const { value: visitCount, setValue: setVisitCount } = useLocalStorage('opticfusion:visit-count', 0);
 
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
-  const [isMounted, setIsMounted] = useState(false);
+  const isMounted = useSyncExternalStore(emptySubscribe, () => true, () => false);
 
   const totalLinks = useMemo(() => links.length, [links]);
   const visitNumber = useMemo(
@@ -39,11 +35,8 @@ const Nav = ({
   );
 
   useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  useEffect(() => {
     const nowIso = new Date().toISOString();
+    // Conta uma nova visita apenas se a anterior ocorreu há mais de uma hora.
     const isNewVisit = !lastVisit
       || (Date.now() - new Date(lastVisit).getTime()) > MathUtils.pow(60, 2) * 1000;
 
@@ -54,6 +47,7 @@ const Nav = ({
   }, [lastVisit, setLastVisit, setVisitCount, visitCount]);
 
   const onScroll = useCallback(() => {
+    // Usa a altura rolável do documento para limitar o indicador entre 0% e 100%.
     const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
     const scrolledY = window.scrollY;
     const pct = docHeight > 0
@@ -112,7 +106,7 @@ const Nav = ({
       <div className="container nav-inner">
         <Link
           className="brand"
-          href="#top"
+          href="/#top"
           aria-label={`${brandTitle} ${brandHighlight}`}
           onClick={closeMenu}
           title={isMounted && lastVisit ? `Última visita: ${new Date(lastVisit).toLocaleString('pt-BR')}` : undefined}
@@ -142,6 +136,18 @@ const Nav = ({
               </Link>
             </li>
           ))}
+          <li>
+            <Link href="/consulta-rm" onClick={closeMenu}>
+              Consulta RM
+            </Link>
+          </li>
+          {isAuthenticated && (
+            <li>
+              <Link href="/dashboard" onClick={closeMenu} style={{ color: 'var(--cyan)' }}>
+                Studio IA
+              </Link>
+            </li>
+          )}
         </ul>
 
         <div className="nav-cta">
@@ -163,9 +169,15 @@ const Nav = ({
           <Button variant="ghost" onClick={goToRM} type="button">
             Consultar RM
           </Button>
-          <Button variant="primary" onClick={goToLogin} type="button">
-            Acesso interno
-          </Button>
+          {isAuthenticated ? (
+            <Button variant="primary" asLink href="/dashboard">
+              Studio IA ⚡
+            </Button>
+          ) : (
+            <Button variant="primary" onClick={goToLogin} type="button">
+              Acesso interno
+            </Button>
+          )}
         </div>
       </div>
     </nav>

@@ -6,18 +6,7 @@ import { useCallback, useMemo } from 'react';
 import { MathUtils } from '@/utils/math';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 
-/**
- * @typedef {Object} Step
- * @property {number} number
- * @property {string} image
- * @property {string} text
- * @property {boolean} [success]
- * @property {boolean} [focus]
- *
- * @typedef {Object} ExperienceStepsProps
- * @property {Step[]} [steps]
- * @property {(step: Step, idx: number) => void} [onStepInteract]
- */
+
 const ExperienceSteps = ({ steps = EXPERIENCE_STEPS, onStepInteract = () => {} }) => {
   const revealRef = useRevealAll();
 
@@ -26,6 +15,7 @@ const ExperienceSteps = ({ steps = EXPERIENCE_STEPS, onStepInteract = () => {} }
     setValue: setLastStepIdx,
   } = useLocalStorage('opticfusion:last-experience-step', null);
 
+  // Reúne as métricas exibidas junto à sequência de etapas.
   const progressMetrics = useMemo(() => {
     const total = steps.length;
     const totalSqrt = MathUtils.round(MathUtils.sqrt(total), 2);

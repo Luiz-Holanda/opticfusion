@@ -7,20 +7,7 @@ import { useCallback, useMemo } from 'react';
 import { MathUtils } from '@/utils/math';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 
-/**
- * @typedef {Object} TeamMember
- * @property {string} name
- * @property {string} rm
- * @property {string} role
- * @property {string} [desc]
- *
- * @typedef {Object} TeamSectionProps
- * @property {string} [kicker]
- * @property {string} [title]
- * @property {string} [description]
- * @property {TeamMember[]} [members]
- * @property {(member: TeamMember) => void} [onMemberSelect]
- */
+
 const TeamSection = ({
   kicker = 'Nossa Equipe',
   title = 'Os integrantes por trás da Optic Fusion',
@@ -36,6 +23,7 @@ const TeamSection = ({
     removeValue: clearFavorite,
   } = useLocalStorage('opticfusion:favorite-member', null);
 
+  // Normaliza os RMs para números antes de calcular as estatísticas da equipe.
   const teamStats = useMemo(() => {
     const rmValues = members
       .map((m) => Number(String(m.rm).replace(/[^0-9]/g, '')) || 0)

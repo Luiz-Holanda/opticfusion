@@ -2,25 +2,13 @@
 
 import { useRevealAll } from '@/hooks/useReveal';
 import { Button } from '@/components/ui/Button.jsx';
+import { Badge } from '@/components/ui/Badge.jsx';
+import { StatCard } from '@/components/ui/StatCard.jsx';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { HERO_STATS_LABELS, SOLUTION_ASIDE_FACTS } from '@/data/constants';
 import { MathUtils } from '@/utils/math';
 
-/**
- * @typedef {Object} HeroProps
- * @property {string} [kicker]
- * @property {string} [titlePrefix]
- * @property {string} [titleHighlight]
- * @property {string} [subtitle]
- * @property {string} [primaryCtaLabel]
- * @property {string} [primaryCtaHref]
- * @property {string} [secondaryCtaLabel]
- * @property {string} [secondaryCtaHref]
- * @property {string[]} [trustBadges]
- * @property {string} [scrollHint]
- * @property {string} [asideTitle]
- * @property {string[]} [asideFacts]
- */
+
 const Hero = ({
   kicker = 'OPTIC FUSION',
   titlePrefix = 'Fotografia inteligente',
@@ -40,6 +28,7 @@ const Hero = ({
     HERO_STATS_LABELS.map((label) => ({ number: 0, label }))
   );
 
+  // Define metas aleatórias dentro de faixas próprias para cada indicador.
   const targetValues = useMemo(() => {
     return HERO_STATS_LABELS.map((label) => {
       let min = 60;
@@ -87,6 +76,7 @@ const Hero = ({
     const { steps, stepTime } = animationConfig;
     let currentStep = 0;
 
+    // Atualiza os números em etapas até atingir as metas calculadas.
     const interval = setInterval(() => {
       currentStep++;
       const progress = MathUtils.clamp(currentStep / steps, 0, 1);
@@ -130,7 +120,7 @@ const Hero = ({
 
           <div className="trust reveal" aria-label="Selos de confiança">
             {trustBadges.map((badge) => (
-              <span className="pill" key={badge}>{badge}</span>
+              <Badge variant="cyan" key={badge}>{badge}</Badge>
             ))}
           </div>
 
@@ -140,16 +130,11 @@ const Hero = ({
             role="group"
           >
             {stats.map((stat, idx) => (
-              <article className="stat-card" key={`stat-${idx}`}>
-                <span
-                  className="stat-number"
-                  aria-live="polite"
-                  aria-atomic="true"
-                >
-                  {stat.number}%
-                </span>
-                <p className="stat-label">{stat.label}</p>
-              </article>
+              <StatCard
+                key={`stat-${idx}`}
+                value={`${stat.number}%`}
+                label={stat.label}
+              />
             ))}
           </div>
         </div>

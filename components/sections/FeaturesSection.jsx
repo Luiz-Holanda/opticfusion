@@ -6,19 +6,7 @@ import { useCallback, useMemo } from 'react';
 import { MathUtils } from '@/utils/math';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 
-/**
- * @typedef {Object} Feature
- * @property {string} icon
- * @property {string} title
- * @property {string} desc
- *
- * @typedef {Object} FeaturesSectionProps
- * @property {string} [kicker]
- * @property {string} [titlePrefix]
- * @property {string} [titleHighlight]
- * @property {Feature[]} [features]
- * @property {(feature: Feature, idx: number) => void} [onFeatureSelect]
- */
+
 const FeaturesSection = ({
   kicker = 'Funcionalidades',
   titlePrefix = 'Um conjunto de IA pensado para',
@@ -50,6 +38,7 @@ const FeaturesSection = ({
     };
   }, [features]);
 
+  // Gera pontuações estáveis para preencher as barras visuais sem depender de uma API.
   const impactScores = useMemo(() => {
     const base = features.length * 10;
     return features.map((f, idx) => {
@@ -67,6 +56,7 @@ const FeaturesSection = ({
   const togglePin = useCallback(
     (idx, feature) => {
       const current = Array.isArray(pinnedFeatures) ? pinnedFeatures : [];
+      // Limita as fixações a três itens, removendo o índice se já estiver marcado.
       const next = current.includes(idx)
         ? current.filter((i) => i !== idx)
         : [...current, idx].slice(0, MathUtils.min(3, features.length));

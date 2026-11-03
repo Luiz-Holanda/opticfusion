@@ -8,12 +8,7 @@ import { useCallback, useMemo, useState } from 'react';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { MathUtils } from '@/utils/math';
 
-/**
- * @typedef {Object} RMLookupModalProps
- * @property {boolean} isOpen
- * @property {() => void} onClose
- * @property {(member: typeof TEAM[number]) => void} [onMemberFound]
- */
+
 const RMLookupModal = ({
   isOpen,
   onClose,
@@ -57,6 +52,7 @@ const RMLookupModal = ({
       if (person) {
         setResult({ ...person });
         setAlert({ type: 'info', message: '' });
+        // Move a busca ao início e mantém apenas RMs recentes e sem repetição.
         const updatedHistory = [
           trimmed,
           ...searchHistory.filter((h) => h !== trimmed),

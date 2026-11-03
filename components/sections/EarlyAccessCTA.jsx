@@ -18,17 +18,7 @@ const SUBJECT_OPTIONS = [
 
 const STORAGE_KEY = 'opticfusion:contact-form-draft';
 
-/**
- * @typedef {Object} EarlyAccessCTAProps
- * @property {string} [kicker]
- * @property {string} [title]
- * @property {string} [description]
- * @property {string} [loginBtnLabel]
- * @property {string} [rmBtnLabel]
- * @property {() => void} [onOpenLogin]
- * @property {() => void} [onOpenRMLookup]
- * @property {(data: FIELDS_DEFAULTS) => void} [onSubmitSuccess]
- */
+
 const EarlyAccessCTA = ({
   kicker = 'Contato e Early Access',
   title = 'Teste a Optic Fusion assistent antes de todo mundo.',
@@ -55,6 +45,7 @@ const EarlyAccessCTA = ({
     const id = window.setTimeout(() => {
       setIsHydrated(true);
       try {
+        // Restaura o rascunho depois que o valor do navegador estiver disponível.
         if (storageAvailable && savedDraft) {
           const hasData = Object.values(savedDraft).some(
             (v) => typeof v === 'string' && v.trim().length > 0
@@ -75,6 +66,7 @@ const EarlyAccessCTA = ({
   }, [storageAvailable, savedDraft]);
 
   useEffect(() => {
+    // Espera a leitura inicial para não substituir um rascunho salvo por campos vazios.
     if (!isHydrated || !storageAvailable) return;
     try {
       const hasData = Object.values(formData).some(

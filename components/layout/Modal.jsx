@@ -1,14 +1,6 @@
 'use client';
 
-/**
- * @typedef {Object} ModalProps
- * @property {boolean} isOpen
- * @property {() => void} onClose
- * @property {string} [title]
- * @property {React.ReactNode} children
- * @property {string} [className]
- * @property {React.HTMLAttributes<HTMLDivElement>} rest
- */
+
 const Modal = ({
   isOpen,
   onClose,

@@ -4,31 +4,21 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { storage } from '@/utils/storage';
 
 export function useLocalStorage(key, initialValue) {
-  const [storedValue, setStoredValue] = useState(() => {
-    try {
-      return storage.getItem(key, initialValue);
-    } catch {
-      return initialValue;
-    }
-  });
-
-  const [available, setAvailable] = useState(() => storage.available);
-  const keyRef = useRef(key);
+  // Lê o valor salvo após a hidratação para manter iguais as primeiras renderizações.
+  const [storedValue, setStoredValue] = useState(initialValue);
+  const [available, setAvailable] = useState(false);
+  const initialValueRef = useRef(initialValue);
+  // Mantém o fallback atualizado caso a chave mude antes da leitura.
+  initialValueRef.current = initialValue;
 
   useEffect(() => {
-    const previousKey = keyRef.current;
-    if (key !== previousKey) {
-      keyRef.current = key;
-      queueMicrotask(() => {
-        setAvailable(storage.available);
-        try {
-          setStoredValue(storage.getItem(key, initialValue));
-        } catch {
-          setStoredValue(initialValue);
-        }
-      });
+    setAvailable(storage.available);
+    try {
+      setStoredValue(storage.getItem(key, initialValueRef.current));
+    } catch {
+      setStoredValue(initialValueRef.current);
     }
-  }, [key, initialValue]);
+  }, [key]);
 
   const setValue = useCallback(
     (value) => {

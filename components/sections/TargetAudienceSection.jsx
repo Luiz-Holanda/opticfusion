@@ -6,19 +6,7 @@ import { useCallback, useMemo } from 'react';
 import { MathUtils } from '@/utils/math';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 
-/**
- * @typedef {Object} AudienceItem
- * @property {string} icon
- * @property {string} title
- * @property {string} desc
- *
- * @typedef {Object} TargetAudienceSectionProps
- * @property {string} [kicker]
- * @property {string} [title]
- * @property {string} [description]
- * @property {AudienceItem[]} [items]
- * @property {(profile: AudienceItem, idx: number) => void} [onProfileSelect]
- */
+
 const TargetAudienceSection = ({
   kicker = 'Público-Alvo',
   title = 'Quem se beneficia com a Optic Fusion?',
@@ -34,6 +22,7 @@ const TargetAudienceSection = ({
     removeValue: clearSelectedProfile,
   } = useLocalStorage('opticfusion:audience-profile', null);
 
+  // Distribui pesos decrescentes pela ordem dos perfis e calcula sua participação.
   const profileWeights = useMemo(() => {
     const weights = items.map((_, idx) => {
       const reverse = items.length - idx;
