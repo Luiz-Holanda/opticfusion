@@ -6,7 +6,6 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { Button } from '@/components/ui/Button.jsx';
 import { Alert } from '@/components/ui/Alert.jsx';
-import { VALID_USERS } from '@/data/constants';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -45,15 +44,6 @@ export default function LoginPage() {
     } else {
       setAlert({ type: 'error', message: result.error || 'Credenciais inválidas.' });
     }
-  };
-
-  const handleQuickFill = (user) => {
-    setEmail(user.email);
-    setPassword(user.password);
-    setAlert({
-      type: 'info',
-      message: `Credenciais de teste preenchidas para ${user.email}`,
-    });
   };
 
   return (
@@ -134,60 +124,6 @@ export default function LoginPage() {
               {submitting ? 'Entrando...' : 'Entrar no Studio'}
             </Button>
           </form>
-
-          
-          <div
-            style={{
-              marginTop: '28px',
-              paddingTop: '20px',
-              borderTop: '1px solid var(--border)',
-            }}
-          >
-            <p style={{ fontSize: '12px', fontWeight: 'bold', color: 'var(--cyan)', marginBottom: '8px' }}>
-              🔑 Credenciais de Teste (Escopo Acadêmico):
-            </p>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              {VALID_USERS.map((u) => (
-                <div
-                  key={u.email}
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    padding: '8px 12px',
-                    background: 'rgba(255, 255, 255, 0.04)',
-                    borderRadius: '8px',
-                    fontSize: '12px',
-                  }}
-                >
-                  <div>
-                    <code>{u.email}</code>
-                    <br />
-                    <span className="muted">senha: <code>{u.password}</code></span>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => handleQuickFill(u)}
-                    style={{
-                      background: 'rgba(0, 229, 255, 0.1)',
-                      border: '1px solid rgba(0, 229, 255, 0.25)',
-                      color: 'var(--cyan)',
-                      padding: '4px 8px',
-                      borderRadius: '6px',
-                      cursor: 'pointer',
-                      fontSize: '11px',
-                    }}
-                  >
-                    Preencher
-                  </button>
-                </div>
-              ))}
-            </div>
-
-            <p className="muted" style={{ fontSize: '11px', marginTop: '12px', lineHeight: 1.4 }}>
-              * Esta autenticação tem finalidade estritamente avaliativa e acadêmica, sem armazenamento de segredos reais.
-            </p>
-          </div>
         </div>
       </main>
     </div>

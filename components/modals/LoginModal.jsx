@@ -3,7 +3,6 @@
 import { Alert } from '@/components/ui/Alert.jsx';
 import { Button } from '@/components/ui/Button.jsx';
 import { Modal } from '@/components/layout/Modal.jsx';
-import { VALID_USERS } from '@/data/constants';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { MathUtils } from '@/utils/math';
@@ -16,7 +15,6 @@ const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 const LoginModal = ({
   isOpen,
   onClose,
-  demoHint = 'Demo: jovi@opticfusion.com / jovi2025',
   onLoginSuccess = () => {},
 }) => {
   const router = useRouter();
@@ -52,8 +50,6 @@ const LoginModal = ({
       return () => cancelAnimationFrame(handle);
     }
   }, [isOpen, rememberedEmail]);
-
-  const totalValidUsers = useMemo(() => VALID_USERS.length, []);
 
   const loginProgress = useMemo(
     () => MathUtils.min(MathUtils.percentage(Number(loginCount) || 0, 100), 100),
@@ -132,7 +128,7 @@ const LoginModal = ({
           id="loginEmail"
           name="email"
           type="email"
-          placeholder="jovi@opticfusion.com"
+          placeholder="nome@opticfusion.com"
           value={fields.email}
           onChange={handleChange}
           aria-invalid={!!errors.email}
@@ -220,14 +216,6 @@ const LoginModal = ({
             )}
           </div>
         )}
-
-        <p className="muted" style={{ marginTop: '8px' }}>
-          {demoHint}
-        </p>
-
-        <p className="muted" style={{ marginTop: '4px', fontSize: '12px' }}>
-          {totalValidUsers} usuário{totalValidUsers !== 1 ? 's' : ''} demo cadastrado{totalValidUsers !== 1 ? 's' : ''}.
-        </p>
 
         <Button variant="primary" size="lg" type="submit" style={{ marginTop: '10px' }}>
           Entrar
