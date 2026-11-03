@@ -23,6 +23,7 @@ const TeamSection = ({
     removeValue: clearFavorite,
   } = useLocalStorage('opticfusion:favorite-member', null);
 
+  // Normaliza os RMs para números antes de calcular as estatísticas da equipe.
   const teamStats = useMemo(() => {
     const rmValues = members
       .map((m) => Number(String(m.rm).replace(/[^0-9]/g, '')) || 0)

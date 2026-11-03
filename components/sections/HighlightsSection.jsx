@@ -16,6 +16,7 @@ const HighlightsSection = ({
   const revealRef = useRevealAll();
 
   const goTo = useCallback((idx) => setCurrent(idx), []);
+  // O módulo mantém o carrossel circular ao avançar ou voltar.
   const prev = useCallback(
     () => setCurrent((c) => (c - 1 + slides.length) % slides.length),
     [slides.length]

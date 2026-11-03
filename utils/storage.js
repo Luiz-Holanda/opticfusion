@@ -3,6 +3,7 @@ const isBrowser = typeof window !== 'undefined';
 const isStorageAvailable = () => {
   if (!isBrowser) return false;
   try {
+    // O teste detecta bloqueios do navegador antes de tentar salvar dados reais.
     const testKey = '__opticfusion_storage_test__';
     window.localStorage.setItem(testKey, testKey);
     window.localStorage.removeItem(testKey);
@@ -29,6 +30,7 @@ const safeParse = (raw) => {
   try {
     return JSON.parse(raw);
   } catch {
+    // Preserva valores legados que não foram gravados como JSON.
     return raw;
   }
 };
@@ -104,6 +106,7 @@ export const storage = {
         const k = window.localStorage.key(i);
         if (k !== null) keys.push(k);
       }
+      // Copia as chaves antes de removê-las para não pular itens durante a iteração.
       const toRemove = prefix
         ? keys.filter((k) => k.startsWith(prefix))
         : keys;

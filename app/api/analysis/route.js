@@ -108,6 +108,7 @@ export async function GET(request) {
     );
   }
 
+  // Usa a amostra padrão quando o identificador solicitado não existe.
   const sampleData = SAMPLES_DATABASE[sample] || SAMPLES_DATABASE['portrait-ideal'];
 
   return NextResponse.json(

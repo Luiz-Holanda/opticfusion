@@ -53,6 +53,7 @@ export function useRevealAll() {
 
     const hasIO = typeof window !== 'undefined' && typeof window.IntersectionObserver !== 'undefined';
 
+    // Revela elementos já visíveis e observa os que entram na tela depois.
     const observer = hasIO
       ? new IntersectionObserver(
           (entries) => {
@@ -93,6 +94,7 @@ export function useRevealAll() {
     const mutationObserver = new MutationObserver(() => {
       observeItems();
     });
+    // Também registra elementos adicionados ou atualizados após a primeira renderização.
     mutationObserver.observe(root, {
       childList: true,
       subtree: true,

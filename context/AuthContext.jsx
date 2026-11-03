@@ -13,6 +13,7 @@ const AuthContext = createContext(null);
 
 const subscribe = (callback) => {
   if (typeof window === 'undefined') return () => {};
+  // Sincroniza a sessão entre abas e após mudanças feitas pelo próprio app.
   window.addEventListener('storage', callback);
   window.addEventListener('opticfusion:auth-change', callback);
   return () => {
@@ -37,6 +38,7 @@ const emptySubscribe = () => () => {};
 export function AuthProvider({ children }) {
   const [error, setError] = useState(null);
 
+  // Adia a leitura da sessão até o navegador para evitar divergência na hidratação.
   const rawSession = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
   const isHydrated = useSyncExternalStore(emptySubscribe, () => true, () => false);
 
@@ -74,6 +76,7 @@ export function AuthProvider({ children }) {
 
     try {
       localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(sessionData));
+      // O evento atualiza o contexto imediatamente na aba que fez o login.
       window.dispatchEvent(new Event('opticfusion:auth-change'));
     } catch (e) {
       console.warn('[AuthContext] Não foi possível persistir no localStorage:', e);

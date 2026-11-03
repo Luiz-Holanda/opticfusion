@@ -12,6 +12,7 @@ export function useModal(initialOpen = false) {
   useEffect(() => {
     if (!isOpen) return;
 
+    // Fecha com Escape e impede a rolagem da página enquanto o modal está aberto.
     const handleKey = (e) => {
       if (e.key === 'Escape') closeModal();
     };

@@ -33,6 +33,7 @@ export default function Home({
   const loginModal = useModal(false);
   const rmModal = useModal(false);
 
+  // Compartilha a abertura dos modais entre o menu e a seção de contato.
   const sharedHandlers = {
     onOpenLogin: loginModal.openModal,
     onOpenRMLookup: rmModal.openModal,

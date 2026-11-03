@@ -47,10 +47,11 @@ export function usePhotoAnalysis(options = {}) {
         const data = json.data || json;
         setResult(data);
         setIsEmpty(false);
+        // Atualiza a amostra no histórico e limita a lista às cinco mais recentes.
         setHistory((prev) => [data, ...prev.filter((item) => item.sampleId !== data.sampleId)].slice(0, 5));
         return { success: true, data };
       } catch (err) {
-        // Mantém o erro para que a tela apresente a mensagem correspondente.
+        // Mantém o erro simulado visível; outras falhas usam o resultado local de contingência.
         if (sampleId === 'error' || err.message.includes('simulado')) {
           setError(err.message);
           setResult(null);
@@ -97,6 +98,7 @@ export function usePhotoAnalysis(options = {}) {
   );
 
   const resetAnalysis = useCallback(() => {
+    // Limpa o resultado atual; o histórico tem uma ação própria de limpeza.
     setResult(null);
     setIsEmpty(false);
     setError(null);

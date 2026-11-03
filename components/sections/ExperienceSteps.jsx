@@ -15,6 +15,7 @@ const ExperienceSteps = ({ steps = EXPERIENCE_STEPS, onStepInteract = () => {} }
     setValue: setLastStepIdx,
   } = useLocalStorage('opticfusion:last-experience-step', null);
 
+  // Reúne as métricas exibidas junto à sequência de etapas.
   const progressMetrics = useMemo(() => {
     const total = steps.length;
     const totalSqrt = MathUtils.round(MathUtils.sqrt(total), 2);

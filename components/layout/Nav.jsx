@@ -36,6 +36,7 @@ const Nav = ({
 
   useEffect(() => {
     const nowIso = new Date().toISOString();
+    // Conta uma nova visita apenas se a anterior ocorreu há mais de uma hora.
     const isNewVisit = !lastVisit
       || (Date.now() - new Date(lastVisit).getTime()) > MathUtils.pow(60, 2) * 1000;
 
@@ -46,6 +47,7 @@ const Nav = ({
   }, [lastVisit, setLastVisit, setVisitCount, visitCount]);
 
   const onScroll = useCallback(() => {
+    // Usa a altura rolável do documento para limitar o indicador entre 0% e 100%.
     const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
     const scrolledY = window.scrollY;
     const pct = docHeight > 0

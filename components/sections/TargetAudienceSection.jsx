@@ -22,6 +22,7 @@ const TargetAudienceSection = ({
     removeValue: clearSelectedProfile,
   } = useLocalStorage('opticfusion:audience-profile', null);
 
+  // Distribui pesos decrescentes pela ordem dos perfis e calcula sua participação.
   const profileWeights = useMemo(() => {
     const weights = items.map((_, idx) => {
       const reverse = items.length - idx;

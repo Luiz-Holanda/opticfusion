@@ -40,6 +40,7 @@ const LoginModal = ({
 
   useEffect(() => {
     if (isOpen) {
+      // Preenche apenas o e-mail salvo; a senha nunca fica armazenada.
       const handle = requestAnimationFrame(() => {
         const hasRemembered = typeof rememberedEmail === 'string' && rememberedEmail.length > 0;
         setFields((prev) => ({

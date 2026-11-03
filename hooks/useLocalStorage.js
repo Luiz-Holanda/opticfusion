@@ -4,11 +4,11 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { storage } from '@/utils/storage';
 
 export function useLocalStorage(key, initialValue) {
-  // Keep the server render and the browser's first render identical. Read
-  // localStorage only after hydration so saved values cannot cause a mismatch.
+  // Lê o valor salvo após a hidratação para manter iguais as primeiras renderizações.
   const [storedValue, setStoredValue] = useState(initialValue);
   const [available, setAvailable] = useState(false);
   const initialValueRef = useRef(initialValue);
+  // Mantém o fallback atualizado caso a chave mude antes da leitura.
   initialValueRef.current = initialValue;
 
   useEffect(() => {

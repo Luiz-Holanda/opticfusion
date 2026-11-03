@@ -28,6 +28,7 @@ const Hero = ({
     HERO_STATS_LABELS.map((label) => ({ number: 0, label }))
   );
 
+  // Define metas aleatórias dentro de faixas próprias para cada indicador.
   const targetValues = useMemo(() => {
     return HERO_STATS_LABELS.map((label) => {
       let min = 60;
@@ -75,6 +76,7 @@ const Hero = ({
     const { steps, stepTime } = animationConfig;
     let currentStep = 0;
 
+    // Atualiza os números em etapas até atingir as metas calculadas.
     const interval = setInterval(() => {
       currentStep++;
       const progress = MathUtils.clamp(currentStep / steps, 0, 1);

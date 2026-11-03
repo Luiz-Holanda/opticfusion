@@ -38,6 +38,7 @@ const FeaturesSection = ({
     };
   }, [features]);
 
+  // Gera pontuações estáveis para preencher as barras visuais sem depender de uma API.
   const impactScores = useMemo(() => {
     const base = features.length * 10;
     return features.map((f, idx) => {
@@ -55,6 +56,7 @@ const FeaturesSection = ({
   const togglePin = useCallback(
     (idx, feature) => {
       const current = Array.isArray(pinnedFeatures) ? pinnedFeatures : [];
+      // Limita as fixações a três itens, removendo o índice se já estiver marcado.
       const next = current.includes(idx)
         ? current.filter((i) => i !== idx)
         : [...current, idx].slice(0, MathUtils.min(3, features.length));

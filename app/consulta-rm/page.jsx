@@ -11,6 +11,7 @@ export default function ConsultaRmPage() {
   const [selectedMember, setSelectedMember] = useState(null);
 
   const cleanTerm = searchTerm.trim().toLowerCase();
+  // A busca aceita o RM, o nome ou a função do integrante.
   const filtered = TEAM.filter(
     (m) =>
       m.rm.includes(cleanTerm) ||

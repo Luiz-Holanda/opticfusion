@@ -45,6 +45,7 @@ const EarlyAccessCTA = ({
     const id = window.setTimeout(() => {
       setIsHydrated(true);
       try {
+        // Restaura o rascunho depois que o valor do navegador estiver disponível.
         if (storageAvailable && savedDraft) {
           const hasData = Object.values(savedDraft).some(
             (v) => typeof v === 'string' && v.trim().length > 0
@@ -65,6 +66,7 @@ const EarlyAccessCTA = ({
   }, [storageAvailable, savedDraft]);
 
   useEffect(() => {
+    // Espera a leitura inicial para não substituir um rascunho salvo por campos vazios.
     if (!isHydrated || !storageAvailable) return;
     try {
       const hasData = Object.values(formData).some(

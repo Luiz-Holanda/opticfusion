@@ -52,6 +52,7 @@ const RMLookupModal = ({
       if (person) {
         setResult({ ...person });
         setAlert({ type: 'info', message: '' });
+        // Move a busca ao início e mantém apenas RMs recentes e sem repetição.
         const updatedHistory = [
           trimmed,
           ...searchHistory.filter((h) => h !== trimmed),
